@@ -1,8 +1,11 @@
 const express=require('express')
 const app = express()
+const dotenv = require('dotenv')
+dotenv.config()
 
 const port=process.env.PORT||8121;
 const products = require("./routes/products")
+const db= require("./db/conn.js")
 
 
 app.get("/",(req,res)=>{
