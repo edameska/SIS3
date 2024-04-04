@@ -23,7 +23,7 @@ dataPool.allProducts = () => {
 
 dataPool.oneProduct = (id)=> {
     return new Promise((resolve, reject)=>{
-        conn.query(`SELECT * FROM Product  WHERE ProuctID = ?`, id, (err, results)=>{
+        conn.query(`SELECT * FROM Product  WHERE ProductID = ?`, id, (err, results)=>{
             if(err){
                 return reject(err)
             }
@@ -33,9 +33,9 @@ dataPool.oneProduct = (id)=> {
 }
 
 //fix it up a bit
-dataPool.authUser = (username, password) => {
+dataPool.authUser = (username) => {
     return new Promise((resolve, reject)=>{
-        conn.query(`SELECT * FROM User WHERE Username = ? AND Password = ?`, [username, password], (err, results)=>{
+        conn.query(`SELECT * FROM User WHERE Username = ?`, username, (err, results)=>{
             if(err){
                 return reject(err)
             }
@@ -44,7 +44,7 @@ dataPool.authUser = (username, password) => {
     })
 }
 
-dataPool.authUser = (username,pass,email,name,surname,role) => {
+dataPool.addUser = (username,pass,email,name,surname,role) => {
     return new Promise((resolve, reject)=>{
         conn.query(`INSERT INTO User (Username,Password,E-mail,Name,Surname,Role) VALUES (?, ?, ?, ?, ?, ?)`, [username,pass,email,name,surname,role], (err, results)=>{
             if(err){
