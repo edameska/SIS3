@@ -1,0 +1,32 @@
+body {
+  background-color: #fffafa;
+}
+.navbar {
+  background-color: #0d98ba;
+}
+.nav-link {
+  color: #ffffff;
+}
+.navbar-brand {
+  color: #ffffff;
+}
+.navbar-toggler {
+  color: #ffffff;
+}
+.navbar-toggler:hover {
+  color: #ffffff;
+}
+.nav-link:hover {
+  color: #31585e;
+}
+.navbar-brand:hover {
+  color: #31585e;
+}
+.btn{
+  background-color: #0d98ba;
+  border-color: #31585e ;
+}
+.btn:hover {
+  background-color: #31585e;
+  border-color: #0d98ba;
+}
