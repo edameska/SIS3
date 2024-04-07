@@ -9,6 +9,14 @@ class HomeView extends Component {
     render() {
       //make the carousel images link to the respective products
         return (
+          <div>
+            <div className="card" style={{margin:"10px"}}>
+              <div className="card-body">
+                <h5 className="card-title">Welcome!!!</h5>
+                <p className="card-text">You are in the home page</p>
+              </div>
+            </div>
+
             <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
                 <ol className="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
@@ -35,6 +43,7 @@ class HomeView extends Component {
                     <span className="sr-only">Next</span>
                 </a>
             </div>
+          </div>
         );
     }
 }
