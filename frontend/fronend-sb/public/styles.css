@@ -30,3 +30,8 @@ body {
   background-color: #31585e;
   border-color: #0d98ba;
 }
+#carouselExampleIndicators{
+  margin-top: 50px;
+
+  margin-left: auto; margin-right: auto
+}
