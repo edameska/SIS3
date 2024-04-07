@@ -6,7 +6,7 @@ import ProductView from "./CustomComponents/ProductView";
 import AddProducts from "./CustomComponents/AddProducts";
 import LoginView from "./CustomComponents/LoginView";
 import SignupView from "./CustomComponents/SignupView";
-//import OneProductView from "./CustomComponents/OneProduct";
+import OneProductView from "./CustomComponents/OneProduct";
 
 //app exports what its rendering
 class App extends Component {
@@ -14,14 +14,16 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state={
-      CurrentPage:"none"
+      CurrentPage:"none",
+      productID:0
     }//state is an object wher eyou can store data
 
   }
 
     QSetView=(obj)=>{
       this.setState({
-        CurrentPage:obj.page
+        CurrentPage:obj.page,
+        productID:obj.productID||0
       }) 
       console.log(obj)     
     }
@@ -32,17 +34,37 @@ class App extends Component {
           return <HomeView/>
         case "about":
           return <AboutView/>
-        case "products":
-          return <ProductView/>
+          case "products":
+        return <ProductView QsetViewInParent={this.QSetView} />;
         case "edit":
           return <AddProducts/>
         case "login":
-          return <LoginView/>
+          return <LoginView QUserFromChild={this.QHandleUserLog} />
         case "signup":
-          return <SignupView/>
+          return <SignupView QUserFromChild={this.QHandleUserLog}/>
+        case "oneProduct":
+          return <OneProductView QViewFromChild={this.QSetView} />;          
         default:
           return <HomeView/>
       }
+    }
+
+    handleSubmit = (event) => {
+      event.preventDefault(); // Prevents the default form submission behavior
+      
+      // Your search logic goes here
+      
+      // For example, you can access the input value like this:
+      console.log(event.target[0].value);
+      
+      // Then you can perform your search based on inputValue
+      
+      // Reset the form fields if needed
+      event.target.reset();
+    };
+    
+    QHandleUserLog = ()=>{
+      this.QSetView({page:"home"})
     }
 
   render() {
@@ -106,12 +128,12 @@ class App extends Component {
                   </li>
                
                 </ul>
-                <form className="form-inline d-lg-none">
+                <form className="form-inline d-lg-none" onSubmit={this.handleSubmit}>
             <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
             <button className="btn btn-outline-success my-2 my-sm-0 search" type="submit">Search</button>
           </form>
         </div>
-        <form className="form-inline d-none d-lg-flex">
+        <form className="form-inline d-none d-lg-flex" onSubmit={this.handleSubmit}>
           <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
           <button className="btn btn-outline-success my-2 my-sm-0 search" type="submit">Search</button>
         </form>
