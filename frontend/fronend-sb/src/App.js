@@ -49,10 +49,11 @@ class App extends Component {
     
 
     //inbuilt function
+    //add functionality to search bar
     return (
       <div id="APP" className="container">
         <div id="menu" className="row">
-          <nav className="navbar">
+          <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
               <a onClick={()=>this.QSetView({page:"home"})}className="navbar-brand" href="#">
                 Timeless Treasure
@@ -103,8 +104,17 @@ class App extends Component {
                       Login
                     </a>
                   </li>
+               
                 </ul>
-              </div>
+                <form className="form-inline d-lg-none">
+            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+            <button className="btn btn-outline-success my-2 my-sm-0 search" type="submit">Search</button>
+          </form>
+        </div>
+        <form className="form-inline d-none d-lg-flex">
+          <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+          <button className="btn btn-outline-success my-2 my-sm-0 search" type="submit">Search</button>
+        </form>
             </div>
           </nav>
         </div>
