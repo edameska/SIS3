@@ -1,36 +1,68 @@
 // ProductView.js
 import React, { Component } from "react";
+import axios from "axios";
 import PropTypes from "prop-types";
 
+import WhiteDolomite from "../Images/WhiteDolomite.jpg";
+import SemiWhiteCalcite from "../Images/SemiWhiteCalcite.jpg";
+import Tombolone from "../Images/Tombolone.jpg";
+
+
 class ProductView extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      products:[]
+    }
+  }
+
+
   QsetViewInParent = (obj) => {
     this.props.QsetViewInParent(obj);
   };
+  componentDidMount() {
+    axios.get("http://88.200.63.148:8121/products").then((res) => {
+      this.setState({ products: res.data });
+    }).catch((err) => {
+      console.log("Error: "+ err.message);
+    });
+  }
+
+  
+  
 
   render() {
+    let data = this.state.products;
+    const imageMap = {
+      1: WhiteDolomite,
+      2: SemiWhiteCalcite,
+      3: Tombolone
+    };
+    
     return (
-      <div
-        className="row row-cols-1 row-cols-md-2 g-1"
-        style={{ margin: "20px" }}
-      >
-        <div className="col">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Card title</h5>
-              <p className="card-text">Slug</p>
-            </div>
-            <button
-              onClick={() =>
-                this.QsetViewInParent({ page: "oneProduct", id: 1 })
-              }
-              style={{ margin: "10px" }}
-              className="btn btn-primary bt"
-            >
-              Read more
-            </button>
-          </div>
-        </div>
+      <div className="row row-cols-1 row-cols-md-3 g-4" style={{margin:"10px"}}>
+      {data.length > 0 ?
+          data.map((d)=>{
+            console.log(d.ImagePath);
+              return(
+                  <div className="col" key={d.ProductID}>
+                    <div className="card">
+                        <div className="card-body">
+                            <h5 className="card-title">{d.Name}</h5>
+                            <p className="card-text">{d.Description}</p>
+                            <img src={imageMap[d.ProductID]} alt="Product" style={{width:"100%"}} />
+                        </div>
+                        <button 
+                        onClick={() => this.QsetViewInParent({page:"oneProduct", id:d.ProductID})}
+                        style={{margin:"10px"}}  
+                        className="btn btn-primary bt">Read more</button>
+                    </div>
+                  </div>
+                  )
+              })
+               :"Loading..."}
       </div>
+  
     );
   }
 }
