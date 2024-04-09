@@ -1,51 +1,43 @@
 import React, { Component } from "react";
-import TomboloneImage from "../Images/Tombolone.jpg";
-import SemiWhiteCalciteImage from "../Images/SemiWhiteCalcite.jpg";
-import WhiteDolomiteImage from "../Images/WhiteDolomite.jpg";
+import MarbleLake1 from "../Images/MarbleLake3.jpg";
+import MarbleLake2 from "../Images/MarbleLake2.jpg";
+import MarbleLake3 from "../Images/MarbleLake3.png";
+
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
 
 class HomeView extends Component {
+
   
     render() {
-      //make the carousel images link to the respective products
-        return (
+      return (
           <div>
-            <div className="card" style={{margin:"10px"}}>
-              <div className="card-body">
-                <h5 className="card-title">Welcome!!!</h5>
-                <p className="card-text">You are in the home page</p>
+              <div className="card" style={{margin:"10px"}}>
+                  <div className="card-body">
+                      <h5 className="card-title">Welcome to our Marble Collection!</h5>
+                      <p className="card-text">Explore our exquisite range of marble products.</p>
+                  </div>
               </div>
-            </div>
-
-            <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-                <ol className="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div className="carousel-inner">
-                    <div className="carousel-item active">
-                        <img className="d-block w-100" src={TomboloneImage} alt="First slide" />
-                    </div>
-                    <div className="carousel-item">
-                        <img className="d-block w-100" src={SemiWhiteCalciteImage} alt="Second slide" />
-                    </div>
-                    <div className="carousel-item">
-                        <img className="d-block w-100" src={WhiteDolomiteImage} alt="Third slide" />
-                    </div>
-                </div>
-                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Previous</span>
-                </a>
-                <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Next</span>
-                </a>
-            </div>
+  
+              <Carousel className="mainCaruselDiv">
+                  <div>
+                      <img className="carousel" src={MarbleLake2} id="smallImg" />
+                      <p className="legend">Second slide</p>
+                  </div>
+                  <div>
+                      <img className="carousel" src={MarbleLake1} />
+                      <p className="legend">First slide</p>
+                  </div>
+                  <div>
+                      <img className="carousel" src={MarbleLake3} />
+                      <p className="legend">Third slide</p>
+                  </div>
+                  
+              </Carousel>
           </div>
-        );
-    }
+      );
+  }
 }
 
 export default HomeView;

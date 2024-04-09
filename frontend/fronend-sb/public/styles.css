@@ -31,11 +31,7 @@ body {
   background-color: #31585e;
   border-color: #0d98ba;
 }
-#carouselExampleIndicators{
-  margin-top: 25px;
 
-  margin-left: auto; margin-right: auto
-}
 .search{
  color:#fffafa;
  background-color: #31585e;
@@ -55,4 +51,11 @@ body {
   size: auto;
   height: 80%;
   align-items: center;
+}
+
+.mainCaruselDiv{
+  height: 80%;
+  width: 80%;
+  justify-content: center;
+  margin-left: 10%;
 }

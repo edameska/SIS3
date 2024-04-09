@@ -7,6 +7,7 @@ import AddProducts from "./CustomComponents/AddProducts";
 import LoginView from "./CustomComponents/LoginView";
 import SignupView from "./CustomComponents/SignupView";
 import OneProductView from "./CustomComponents/OneProduct";
+import ProfileView from "./CustomComponents/ProfileView";
 
 //app exports what its rendering
 class App extends Component {
@@ -43,7 +44,9 @@ class App extends Component {
         case "signup":
           return <SignupView QUserFromChild={this.QHandleUserLog}/>
         case "oneProduct":
-          return <OneProductView QViewFromChild={this.QSetView} />;          
+          return <OneProductView QViewFromChild={this.QSetView} />;  
+        case "profile":
+          return <ProfileView />        
         default:
           return <HomeView/>
       }
@@ -112,6 +115,12 @@ class App extends Component {
                   <li className="nav-item">
                     <a onClick={()=>this.QSetView({page:"edit"})} className="nav-link" href="#">
                       Edit products
+                    </a>
+                  </li>
+
+                  <li className="nav-item">
+                    <a onClick={()=>this.QSetView({page:"profile"})} className="nav-link" href="#">
+                      Profile
                     </a>
                   </li>
 
