@@ -14,8 +14,9 @@ products.get("/", async(req, res, next) => {
  }
 })
 
-
+//pass the id
 products.get("/:id", async(req, res, next) => {
+   console.log(req.params)
    try{
       console.log(req)
       let queryResult= await db.oneProduct(req.params.id)

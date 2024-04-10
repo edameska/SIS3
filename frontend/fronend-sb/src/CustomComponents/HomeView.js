@@ -25,23 +25,18 @@ class HomeView extends Component {
               <Carousel className="mainCaruselDiv">
               <div>
                       <img className="carousel" src={MarbleLake5} />
-                      <p className="legend">First slide</p>
                   </div>
                   <div>
-                      <img className="carousel" src={MarbleLake2} id="smallImg" />
-                      <p className="legend">Second slide</p>
+                      <img className="carousel" src={MarbleLake2} />
                   </div>
                   <div>
                       <img className="carousel" src={MarbleLake1} />
-                      <p className="legend">Third slide</p>
                   </div>
                   <div>
                       <img className="carousel" src={MarbleLake3} />
-                      <p className="legend">Fourth slide</p>
                   </div>
                   <div>
                       <img className="carousel" src={MarbleLake4} />
-                      <p className="legend">Fifth slide</p>
                   </div>
                   
               </Carousel>

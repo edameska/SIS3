@@ -32,6 +32,39 @@ dataPool.oneProduct = (id)=> {
     })
 }
 
+//wishlist
+dataPool.allProductsW = (id) => {
+    return new Promise((resolve, reject)=>{
+        conn.query(`SELECT Product.* 
+        FROM Product
+        INNER JOIN WishlistItem ON Product.ProductID = WishlistItem.ProductID 
+        INNER JOIN Wishlist ON WishlistItem.WishlistID = Wishlist.WishlistID 
+        WHERE Wishlist.UserID = ?`, id ,(err, results)=>{
+            if(err){
+                return reject(err)
+            }
+            return resolve(results)
+        })
+    })
+}
+//cart
+dataPool.allProductsC = (id) => {
+    return new Promise((resolve, reject)=>{
+        conn.query(`SELECT Product.* 
+        FROM Product 
+        INNER JOIN CartItem ON Product.ProductID = CartItem.ProductID 
+        INNER JOIN Cart ON CartItem.CartID = Cart.CartID 
+        WHERE Cart.UserID = ?`, id ,(err, results)=>{
+            if(err){
+                return reject(err)
+            }
+            return resolve(results)
+        })
+    })
+}
+
+
+
 //fix it up a bit
 dataPool.authUser = (username) => {
     return new Promise((resolve, reject)=>{
@@ -67,6 +100,55 @@ dataPool.addProduct= (name,price,weight,height,width,depth,desc) =>{
     })
 
 }
+//adding product to wishlist
+dataPool.addToWishlist=(userID, productID) =>{
+    return new Promise((resolve, reject) => {
+        // Check if the product is already in the wishlist
+        conn.query(`SELECT * FROM WishlistItem WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            
+            // If the product is already in the wishlist, return a message or handle it as per your requirement
+            if (results.length > 0) {
+                return reject('Product already exists in the wishlist.');
+            }
+            
+            // If the product is not in the wishlist, insert it
+            conn.query(`INSERT INTO WishlistItem (UserID, ProductID) VALUES (?, ?)`, [userID, productID], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve('Product added to wishlist successfully.');
+            });
+        });
+    });
+}
+//adding to cart
+dataPool.addToCart=(userID, productID) =>{
+    return new Promise((resolve, reject) => {
+        // Check if the product is already in the cart
+        conn.query(`SELECT * FROM CartItem WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            
+            // If the product is already in the cart
+            if (results.length > 0) {
+                return reject('Product already exists in the cart.');
+            }
+            
+            // If the product is not in the cart, insert it
+            conn.query(`INSERT INTO CartItem (UserID, ProductID) VALUES (?, ?)`, [userID, productID], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve('Product added to cart successfully.');
+            });
+        });
+    });
+}
+
 
 conn.connect(err=>{
     if(err){

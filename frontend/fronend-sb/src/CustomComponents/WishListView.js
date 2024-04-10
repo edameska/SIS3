@@ -7,7 +7,7 @@ import SemiWhiteCalcite from "../Images/SemiWhiteCalcite.jpg";
 import Tombolone from "../Images/Tombolone.jpg";
 
 
-class ProductView extends Component {
+class WishListView extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -20,14 +20,18 @@ class ProductView extends Component {
     this.props.QsetViewInParent(obj);
   };
   componentDidMount() {
-    axios.get("http://88.200.63.148:8121/products").then((res) => {
-      this.setState({ products: res.data });
-    }).catch((err) => {
-      console.log("Error: "+ err.message);
-    });
+    const { userID } = this.props;
+    axios.get(`http://88.200.63.148:8121/wishlist/all/${userID}`)
+      .then((res) => {
+        this.setState({ products: res.data });
+      })
+      .catch((err) => {
+        console.log("Error: " + err.message);
+      });
   }
-
   
+
+  //create routers dor wishlist
   
 
   render() {
@@ -39,7 +43,11 @@ class ProductView extends Component {
     };
     
     return (
+    <div>
+         <h1 className="title">Wish List</h1>
+
       <div className="row row-cols-1 row-cols-md-3 g-4" style={{margin:"10px"}}>
+
       {data.length > 0 ?
           data.map((d)=>{
             console.log(d.ImagePath);
@@ -61,13 +69,15 @@ class ProductView extends Component {
               })
                :"Loading..."}
       </div>
+      </div>
   
     );
   }
 }
 
-ProductView.propTypes = {
+WishListView.propTypes = {
   QsetViewInParent: PropTypes.func.isRequired,
+  userID: PropTypes.string.isRequired, // Validate userID prop
 };
 
-export default ProductView;
+export default WishListView;
