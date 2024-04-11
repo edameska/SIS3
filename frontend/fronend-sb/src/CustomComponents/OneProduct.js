@@ -5,6 +5,8 @@ import axios from "axios";
 import WhiteDolomite from "../Images/WhiteDolomite.jpg";
 import SemiWhiteCalcite from "../Images/SemiWhiteCalcite.jpg";
 import Tombolone from "../Images/Tombolone.jpg";
+import SemiWhiteCalcite2 from "../Images/SemiWhite2.jpg";
+import Tombolone2 from "../Images/Tombolon2.jpg";
 
 class OneProductView extends Component {
   QSetViewInParent = (obj) => {
@@ -33,8 +35,13 @@ class OneProductView extends Component {
 
   render() {
     const { product, loading } = this.state;
-    const imageMap = { 1: WhiteDolomite, 2: SemiWhiteCalcite, 3: Tombolone };
-
+    const imageMap = {
+      1: WhiteDolomite,
+      2: SemiWhiteCalcite,
+      3: Tombolone,
+      4: SemiWhiteCalcite2,
+      5: Tombolone2
+    };
     return (
       <div className="product-container"> 
         {loading ? (
@@ -55,7 +62,7 @@ class OneProductView extends Component {
             <div className="product-info">
               <div className="product-specs">
                 <p>Price Per Ton: {product[0].Price}€</p>
-                <p>Weight: {product[0].Weight} days</p>
+                <p>Weight: {product[0].Weight} tons</p>
                 <p>Dimensions: {product[0].Height} x {product[0].Width} x {product[0].Depth}</p>
                 <p>Stock Level: {product[0].StockLevel}</p>
               </div>

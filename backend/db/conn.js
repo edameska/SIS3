@@ -89,9 +89,9 @@ dataPool.addUser = (username,pass,email,name,surname,role) => {
 }
 
 //stock level, id auto incremented
-dataPool.addProduct= (name,price,weight,height,width,depth,desc) =>{
+dataPool.addProduct= (name,price,weight,height,width,depth,desc,stocklevel) =>{
     return new Promise((resolve, reject)=>{
-        conn.query(`INSERT INTO Product (Name,PricePerTon(in€),Weight,Height,Width,Depth,Description) VALUES (?, ?, ?, ?, ?, ?, ?)`, [name,price,weight,height,width,depth,desc],(err, results)=>{
+        conn.query(`INSERT INTO Product (Name,Price,Weight,Height,Width,Depth,Description,StockLevel) VALUES (?, ?, ?, ?, ?, ?, ?,?)`, [name,price,weight,height,width,depth,desc,stocklevel],(err, results)=>{
             if(err){
                 return reject(err)
             }

@@ -40,8 +40,8 @@ class App extends Component {
           return <AboutView/>
           case "products":
         return <ProductView QsetViewInParent={this.QSetView} />;
-        case "edit":
-          return <AddProducts/>
+        case "add":
+          return <AddProducts QViewFromChild={this.QSetView} data={this.state.productID}/>
         case "login":
           return <LoginView QUserFromChild={this.QHandleUserLog} />
         case "signup":
@@ -135,8 +135,8 @@ class App extends Component {
                   </li>
 
                   <li className="nav-item">
-                    <a onClick={()=>this.QSetView({page:"edit"})} className="nav-link" href="#">
-                      Edit products
+                    <a onClick={()=>this.QSetView({page:"add"})} className="nav-link" href="#">
+                      Add products
                     </a>
                   </li>
 

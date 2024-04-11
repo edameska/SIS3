@@ -6,9 +6,16 @@ dotenv.config()
 
 const port=process.env.PORT||8121;
 const products = require("./routes/products")
+const { METHODS } = require('http')
 
+app.use(express.json())//to send between frontend and backend
 app.use(express.urlencoded({extended : true}));
-app.use(cors())
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))
+
 app.get("/",(req,res)=>{
     res.send("This text must be changed to a static file")
 })

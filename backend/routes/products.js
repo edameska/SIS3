@@ -30,7 +30,15 @@ products.get("/:id", async(req, res, next) => {
 })
 //adding a new product
 products.post("/", async(req, res, next) => {
-   let {name, price, weight, height, width, depth, desc, stock} = req.body
+   console.log(req.body)
+   let name = req.body.Name;
+   let price= req.body.Price
+   let weight= req.body.Weight
+   let height = req.body.Height
+   let width= req.body.Width
+   let depth = req.body.Depth
+   let stock = req.body.StockLevel
+   let desc= req.body.Description
    let isCompleteProduct = name && price && weight && height && width && depth && desc && stock;
    if (isCompleteProduct) {
 
