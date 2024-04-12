@@ -24,6 +24,24 @@ QSendUserToParent = (state) => {
 }
 
 QPostSignup= ()=>{
+  let name = this.state.user.name
+  let surname = this.state.user.surname
+  let username = this.state.user.username
+  let email = this.state.user.email
+  let password = this.state.user.password
+
+  if (!username || !email || !password || !name || !surname) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  // Check if the email format is valid
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
   axios.post("http://88.200.63.148:8121/users/register",{
       username:this.state.user.username,
       email:this.state.user.email,
