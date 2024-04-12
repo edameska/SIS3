@@ -77,9 +77,9 @@ dataPool.authUser = (username) => {
     })
 }
 
-dataPool.addUser = (username,pass,email,name,surname,role) => {
+dataPool.addUser = (username,pass,email,name,surname) => {
     return new Promise((resolve, reject)=>{
-        conn.query(`INSERT INTO User (Username,Password,E-mail,Name,Surname,Role) VALUES (?, ?, ?, ?, ?, ?)`, [username,pass,email,name,surname,role], (err, results)=>{
+        conn.query(`INSERT INTO User (Username,Password,Email,Name,Surname,Role) VALUES (?, ?, ?, ?, ?, 'Customer')`, [username,pass,email,name,surname], (err, results)=>{
             if(err){
                 return reject(err)
             }

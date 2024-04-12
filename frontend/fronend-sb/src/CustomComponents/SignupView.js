@@ -1,12 +1,13 @@
 import {Component} from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 class SignupView extends Component{
   constructor(props){
     super(props);
     this.state = {
         user: {
-            type:"login"
+            type:"signup"
         }
     }
 }
@@ -21,7 +22,23 @@ QGetText = (e) => {
 QSendUserToParent = (state) => {
     this.props.QUserFromChild(state.user)
 }
+
+QPostSignup= ()=>{
+  axios.post("http://88.200.63.148:8121/users/register",{
+      username:this.state.user.username,
+      email:this.state.user.email,
+      password:this.state.user.password,
+      name:this.state.user.name,
+      surname:this.state.user.surname
+  }).then((response)=>{
+      console.log("sent to server "+response)
+  }).catch((error)=>{
+      console.log(error.message)
+  })
+}
     render(){
+      console.log(this.state)
+
         return(
             <div
             className="card"
@@ -34,6 +51,26 @@ QSendUserToParent = (state) => {
             }}
           >
             <form style={{ margin: "20px" }}>
+            <div className="mb-3">
+                <label className="form-label">Name</label>
+                <input
+                onChange={(e)=>this.QGetText(e)}
+                  name="name"
+                  type="text"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Surname</label>
+                <input
+                onChange={(e)=>this.QGetText(e)}
+                  name="surname"
+                  type="text"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                />
+              </div>
               <div className="mb-3">
                 <label className="form-label">Username</label>
                 <input
@@ -41,7 +78,6 @@ QSendUserToParent = (state) => {
                   name="username"
                   type="text"
                   className="form-control"
-                  id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                 />
               </div>
@@ -55,9 +91,7 @@ QSendUserToParent = (state) => {
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                 />
-                <div id="emailHelp" className="form-text">
-                  Well never share your email with anyone else.
-                </div>
+                
               </div>
               <div className="mb-3">
                 <label className="form-label">Password</label>
@@ -71,7 +105,7 @@ QSendUserToParent = (state) => {
               </div>
             </form>
             <button
-            onClick={()=>this.QSendUserToParent(this.state)}
+            onClick={()=>this.QPostSignup()}
             style={{ margin: "10px" }} className="btn btn-primary bt">
               Submit
             </button>

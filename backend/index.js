@@ -5,8 +5,9 @@ const cors = require('cors')
 dotenv.config()
 
 const port=process.env.PORT||8121;
+
 const products = require("./routes/products")
-const { METHODS } = require('http')
+const users = require('./routes/users')
 
 app.use(express.json())//to send between frontend and backend
 app.use(express.urlencoded({extended : true}));
@@ -21,6 +22,7 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/products", products)
+app.use('/users', users)
 
 
 //process gives us port or we use one provideed by us
