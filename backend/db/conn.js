@@ -68,13 +68,12 @@ dataPool.allProductsC = (id) => {
 //fix it up a bit
 dataPool.authUser = (username) => {
     return new Promise((resolve, reject)=>{
-        conn.query(`SELECT * FROM User WHERE Username = ?`, username, (err, results)=>{
-            if(err){
-                return reject(err)
-            }
-            return resolve(results)
-        })
-    })
+        conn.query(`SELECT * FROM User WHERE Username = ?`, username, (err,res, fields)=>{
+            if(err){return reject(err)}
+            return resolve(res)
+          })
+        })  
+      
 }
 
 dataPool.addUser = (username,pass,email,name,surname) => {

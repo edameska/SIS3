@@ -1,5 +1,5 @@
 import { Component } from "react";
-//
+import axios from "axios";
 import AboutView from "./CustomComponents/AboutView";
 import HomeView from "./CustomComponents/HomeView";
 import ProductView from "./CustomComponents/ProductView";
@@ -18,7 +18,11 @@ class App extends Component {
     super(props)
     this.state={
       CurrentPage:"none",
-      productID:0
+      productID:0,
+      userStatus:{
+        logged:false,
+        user:{}
+      }
     }//state is an object wher eyou can store data
 
   }
@@ -41,9 +45,9 @@ class App extends Component {
           case "products":
         return <ProductView QsetViewInParent={this.QSetView} />;
         case "add":
-          return <AddProducts QViewFromChild={this.QSetView} data={this.state.productID}/>
+          return  <AddProducts QViewFromChild={this.QSetView} data={this.state.productID}/>
         case "login":
-          return <LoginView QUserFromChild={this.QHandleUserLog} />
+          return <LoginView QUserFromChild={this.QSetUser} />
         case "signup":
           return <SignupView QUserFromChild={this.QHandleUserLog}/>
         case "oneProduct":
@@ -73,10 +77,25 @@ class App extends Component {
       event.target.reset();
     };
     
+    QSetUser=(obj)=>{
+      this.setState({
+        CurrentPage:"products",
+        userStatus:{logged:true, user:obj}
+      })
+
+    }
+
     QHandleUserLog = ()=>{
-      this.QSetView({page:"home"})
+      this.QSetView({page:"login"})
     }
     
+//see if the user is logged in
+    componentDidMount(){
+      axios.get("http://88.200.63.148:8121/users/login")
+      .then(response => {
+        console.log(response)
+      })
+    }
 
   render() {
     
@@ -134,20 +153,25 @@ class App extends Component {
                     </a>
                   </li>
 
-                  <li className="nav-item">
-                    <a onClick={()=>this.QSetView({page:"add"})} className="nav-link" href="#">
-                      Add products
-                    </a>
-                  </li>
-
+                  {this.state.userStatus.logged ? 
+                    <li className="nav-item">
+                      <a onClick={()=>this.QSetView({page:"add"})} className="nav-link" href="#">
+                        Add products
+                      </a>
+                    </li>
+                    :
+                    null // Render nothing if the user is not logged in
+                  }
+                {this.state.userStatus.logged ? 
                   <li className="nav-item">
                     <a onClick={()=>this.QSetView({page:"profile"})} className="nav-link" href="#">
                       Profile
                     </a>
-                  </li>
+                  </li>:
+                  null}
 
                   <li className="nav-item">
-                    <a onClick={()=>this.QSetView({page:"signup"})} className="nav-link " href="#">
+                    <a onClick={()=>this.QSetView({page:"signup"})} className="nav-link" href="#">
                       Sign up
                     </a>
                   </li>

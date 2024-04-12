@@ -1,7 +1,8 @@
 import {Component} from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 
-
+//change it so we use sessioning
 //handle emty field for extra points
 class LoginView extends Component{
 
@@ -21,11 +22,26 @@ class LoginView extends Component{
     )
     }
 
-    QSendUserToParent = (state) => {
-        this.props.QUserFromChild(state.user)
+    QSendUserToParent = (obj) => {
+        this.props.QUserFromChild(obj)
     }
+
+    QPostLogin = () =>{
+        let user = this.state.user
+        axios.post("http://88.200.63.148:8121/users/login",{
+            username:user.username,
+            password:user.password
+        },{withCredentials:true})
+        .then((res)=>{
+            console.log("sent to server")
+            //console.log(res.data)
+            this.QSendUserToParent(res.data)
+
+        })
+
+    }
+
     render(){
-        //console.log(this.state)
         return(
             <div className="card" style={{width:"400px", marginLeft:"auto", marginRight:"auto", marginTop:"10px", marginBottom:"10px"}}>
                 <form style={{margin:"20px"}} >
@@ -39,7 +55,7 @@ class LoginView extends Component{
                     </div>
                 </form>
                 <button
-                onClick={()=>this.QSendUserToParent(this.state)}
+                onClick={()=>this.QPostLogin()}
                   style={{margin:"10px"}} className="btn btn-primary bt">Sign up</button>
                 </div>
 

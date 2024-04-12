@@ -50,6 +50,8 @@ QPostSignup= ()=>{
       surname:this.state.user.surname
   }).then((response)=>{
       console.log("sent to server "+response)
+      this.QSendUserToParent(response.data)
+
   }).catch((error)=>{
       console.log(error.message)
   })

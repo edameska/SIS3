@@ -1,31 +1,64 @@
 const express = require("express");
 const users = express.Router();
+const session = require('express-session')
 const db = require("../db/conn.js");
 
-users.post("/login", async (req, res) => {
-  let { username, password } = req.body;
-  let isUserComplete = username && password;
-  if (isUserComplete) {
-    try {
-      let queryResult = await db.authUser(username);
-      if (queryResult.length > 0) {
-        if (queryResult[0].password === password) {
-          console.log("Login successful");
-        } else {
-          console.log("Wrong password");
-        }
-      } else {
-        console.log("User does not exist");
-      }
-    } catch (err) {
-      console.log(err);
-      res.sendStatus(500);
+users.use(session({
+    secret:"secretpassword",
+    resave:false,
+    saveUninitialized:false,
+    cookie:{
+        expires:600000
     }
-  } else {
-    console.log("username and password are required");
-  }
-  res.end();
+}));
+
+users.get("/login", (req, res) => {
+    if(req.session.user){
+        res.send({
+            loggedIn:true,
+            user:req.session.user
+        })
+    }else
+    {
+        res.send({
+            loggedIn:false
+        });
+    }
 });
+
+users.post('/login', async (req, res, next) => {
+    try{
+     const username = req.body.username;
+     const password = req.body.password;
+     if (username && password){
+         const queryResult=await db.authUser(username)        
+         if(queryResult.length>0){
+             if(password===queryResult[0].Password){
+                // console.log(queryResult)
+                 res.send({logged:true, user:queryResult[0].Username, role:queryResult[0].Role, userId:queryResult[0].ID})
+                 req.session.user=queryResult[0]//saving user in session
+                 console.log("valid session")
+             } else{
+                 res.sendStatus(204)
+                  console.log("INCORRECT PASSWORD")
+             }
+         } else{
+             res.sendStatus(204)
+             console.log("USER NOT REGISTRED");   
+         }
+     } 
+     else {
+         res.sendStatus(204)
+         console.log("Please enter Username and Password!")
+     }
+     res.end();
+    }catch(err){
+     console.log(err)
+     res.sendStatus(500)
+     next()
+    }
+  });
+
 
 users.post("/register", async (req, res) => {
   let username = req.body.username;

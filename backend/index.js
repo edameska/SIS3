@@ -2,6 +2,7 @@ const express=require('express')
 const app = express()
 const dotenv = require('dotenv')
 const cors = require('cors')
+const cookieParser=require('cookie-parser')
 dotenv.config()
 
 const port=process.env.PORT||8121;
@@ -9,13 +10,17 @@ const port=process.env.PORT||8121;
 const products = require("./routes/products")
 const users = require('./routes/users')
 
+app.use(cookieParser("secretpassword"))//to parse cookies
 app.use(express.json())//to send between frontend and backend
 app.use(express.urlencoded({extended : true}));
 app.use(cors({
-    origin: '*',
+    origin: ["http://88.200.63.148:8122"],
     methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],//to send cookies
+    credentials: true // enable set cookie
 }))
+
+
 
 app.get("/",(req,res)=>{
     res.send("This text must be changed to a static file")
