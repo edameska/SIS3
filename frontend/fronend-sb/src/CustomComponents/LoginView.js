@@ -26,20 +26,26 @@ class LoginView extends Component{
         this.props.QUserFromChild(obj)
     }
 
-    QPostLogin = () =>{
-        let user = this.state.user
-        axios.post("http://88.200.63.148:8121/users/login",{
-            username:user.username,
-            password:user.password
-        },{withCredentials:true})
-        .then((res)=>{
-            console.log("sent to server")
-            //console.log(res.data)
-            this.QSendUserToParent(res.data)
-
+    QPostLogin = () => {
+        let user = this.state.user;
+        axios.post("http://88.200.63.148:8121/users/login", {
+            username: user.username,
+            password: user.password
+        }, { withCredentials: true })
+        .then((res) => {
+            if (res.data.logged) {
+                console.log("User logged in successfully");
+                console.log(res.data);
+                this.QSendUserToParent(res.data);
+            } else {
+                console.log("User not registered or incorrect credentials");
+            }
         })
-
+        .catch((error) => {
+            console.log("Error logging in: " + error.message);
+        });
     }
+    
 
     render(){
         return(

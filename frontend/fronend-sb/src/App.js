@@ -53,7 +53,7 @@ class App extends Component {
         case "oneProduct":
           return <OneProductView QViewFromChild={this.QSetView} data={this.state.productID} />;  
         case "profile":
-          return <ProfileView />  
+          return <ProfileView key={this.state.userStatus.user.id} user={this.state.userStatus.user}/>  
         case "wishlist":
           return <WishlistView QsetViewInParent={this.QSetView} userID={userID}/>    
         case "cart":
@@ -64,16 +64,11 @@ class App extends Component {
     }
 
     handleSubmit = (event) => {
-      event.preventDefault(); // Prevents the default form submission behavior
-      
-      // Your search logic goes here
-      
-      // For example, you can access the input value like this:
+      event.preventDefault(); 
       console.log(event.target[0].value);
-      
-      // Then you can perform your search based on inputValue
-      
-      // Reset the form fields if needed
+      //search
+
+
       event.target.reset();
     };
     
@@ -153,7 +148,7 @@ class App extends Component {
                     </a>
                   </li>
 
-                  {this.state.userStatus.logged ? 
+                  {this.state.userStatus.logged && this.state.userStatus.user.role==="Manager"? 
                     <li className="nav-item">
                       <a onClick={()=>this.QSetView({page:"add"})} className="nav-link" href="#">
                         Add products

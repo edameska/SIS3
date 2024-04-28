@@ -12,6 +12,8 @@ users.use(session({
     }
 }));
 
+
+
 users.get("/login", (req, res) => {
     if(req.session.user){
         res.send({
@@ -35,7 +37,7 @@ users.post('/login', async (req, res, next) => {
          if(queryResult.length>0){
              if(password===queryResult[0].Password){
                 // console.log(queryResult)
-                 res.send({logged:true, user:queryResult[0].Username, role:queryResult[0].Role, userId:queryResult[0].ID})
+                 res.send({logged:true, user:queryResult[0].Username, role:queryResult[0].Role, userId:queryResult[0].ID, name:queryResult[0].Name, surname:queryResult[0].Surname, country:queryResult[0].Country, email:queryResult[0].Email})
                  req.session.user=queryResult[0]//saving user in session
                  console.log("valid session")
              } else{
@@ -66,6 +68,7 @@ users.post("/register", async (req, res) => {
   let email = req.body.email;
   let name = req.body.name;
   let surname = req.body.surname;
+  let country = req.body.country;
   
   // Initialize missingFields array
   let missingFields = [];
@@ -85,10 +88,13 @@ users.post("/register", async (req, res) => {
   if (!surname) {
     missingFields.push("surname");
   }
+  if(!country){
+    missingFields.push("country");
+  }
 
   if (missingFields.length === 0) {
     try {
-      let queryResult = await db.addUser(username, password, email, name, surname);
+      let queryResult = await db.addUser(username, password, email, name, surname,country);
       if (queryResult.affectedRows) {
         console.log("User created");
       }
@@ -100,6 +106,30 @@ users.post("/register", async (req, res) => {
     console.log("Missing fields:", missingFields.join(", "));
   }
   res.end();
+});
+
+users.post("/edit-profile", async (req, res) => {
+  let username = req.body.username;
+  let userId = req.body.userId;
+  let email = req.body.email;
+  let name = req.body.name;
+  let surname = req.body.surname;
+  let country = req.body.country;  
+  try {
+    const queryResult = await db.editUserProfile(userId, username, email, name, surname, country);
+    
+    // Check if the update was successful
+    if (queryResult.affectedRows) {
+      console.log("User profile updated successfully");
+      res.sendStatus(200); // Send success status code
+    } else {
+      console.log("Failed to update user profile");
+      res.sendStatus(500); // Send error status code
+    }
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500); // Send error status code
+  }
 });
 
 module.exports = users;

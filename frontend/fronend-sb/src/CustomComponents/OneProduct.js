@@ -17,7 +17,7 @@ class OneProductView extends Component {
     super(props);
     this.state = {
       product: [], // Initialize as empty array
-      loading: true, // Add loading state
+      loading: true, //loading state
     };
   }
 
@@ -30,7 +30,7 @@ class OneProductView extends Component {
         console.error("Error fetching product data:", error);
         // Handle errors gracefully (e.g., display error message)
       })
-      .finally(() => this.setState({ loading: false })); // Mark as loaded
+      .finally(() => this.setState({ loading: false })); //mark as loaded
   }
 
   render() {

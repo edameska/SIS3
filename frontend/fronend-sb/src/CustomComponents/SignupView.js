@@ -29,8 +29,9 @@ QPostSignup= ()=>{
   let username = this.state.user.username
   let email = this.state.user.email
   let password = this.state.user.password
+  let country = this.state.user.country
 
-  if (!username || !email || !password || !name || !surname) {
+  if (!username || !email || !password || !name || !surname || !country) {
     alert("Please fill in all fields.");
     return;
   }
@@ -47,7 +48,8 @@ QPostSignup= ()=>{
       email:this.state.user.email,
       password:this.state.user.password,
       name:this.state.user.name,
-      surname:this.state.user.surname
+      surname:this.state.user.surname,
+      country:this.state.user.country
   }).then((response)=>{
       console.log("sent to server "+response)
       this.QSendUserToParent(response.data)
@@ -72,6 +74,16 @@ QPostSignup= ()=>{
           >
             <form style={{ margin: "20px" }}>
             <div className="mb-3">
+                <label className="form-label">Username</label>
+                <input
+                onChange={(e)=>this.QGetText(e)}
+                  name="username"
+                  type="text"
+                  className="form-control"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+            <div className="mb-3">
                 <label className="form-label">Name</label>
                 <input
                 onChange={(e)=>this.QGetText(e)}
@@ -92,15 +104,16 @@ QPostSignup= ()=>{
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">Username</label>
+                <label className="form-label">Country</label>
                 <input
                 onChange={(e)=>this.QGetText(e)}
-                  name="username"
+                  name="country"
                   type="text"
                   className="form-control"
                   aria-describedby="emailHelp"
                 />
               </div>
+          
               <div className="mb-3">
                 <label className="form-label">Email address</label>
                 <input

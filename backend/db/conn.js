@@ -76,9 +76,10 @@ dataPool.authUser = (username) => {
       
 }
 
-dataPool.addUser = (username,pass,email,name,surname) => {
+
+dataPool.addUser = (username,pass,email,name,surname,country) => {
     return new Promise((resolve, reject)=>{
-        conn.query(`INSERT INTO User (Username,Password,Email,Name,Surname,Role) VALUES (?, ?, ?, ?, ?, 'Customer')`, [username,pass,email,name,surname], (err, results)=>{
+        conn.query(`INSERT INTO User (Username,Password,Email,Name,Surname,Country,Role) VALUES (?, ?, ?, ?, ?, ?,'Customer')`, [username,pass,email,name,surname,country], (err, results)=>{
             if(err){
                 return reject(err)
             }
@@ -86,6 +87,22 @@ dataPool.addUser = (username,pass,email,name,surname) => {
         })
     })
 }
+
+dataPool.editUserProfile = (userId, username, email, name, surname, country) => {
+    return new Promise((resolve, reject) => {
+        conn.query(
+            `UPDATE User SET Username = ?, Email = ?, Name = ?, Surname = ?, Country = ? WHERE ID = ?`,
+            [username, email, name, surname, country, userId],
+            (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(results);
+            }
+        );
+    });
+};
+
 
 //stock level, id auto incremented
 dataPool.addProduct= (name,price,weight,height,width,depth,desc,stocklevel) =>{
