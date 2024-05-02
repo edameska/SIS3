@@ -28,6 +28,21 @@ products.get("/:id", async(req, res, next) => {
    }
 
 })
+
+//search 
+products.get("/search/:name", async(req, res, next) => {
+   console.log(req.params)
+   try{
+      console.log(req)
+      let queryResult= await db.search(req.params.name)
+      res.json(queryResult)
+   }
+   catch (err) {
+      console.error(err)
+      res.sendStatus(500)
+   }
+})
+
 //adding a new product
 products.post("/", async(req, res, next) => {
    console.log(req.body)

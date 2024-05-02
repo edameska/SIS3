@@ -47,7 +47,6 @@ class ProductView extends Component {
       <div className="row row-cols-1 row-cols-md-3 g-4" style={{margin:"10px"}}>
       {data.length > 0 ?
           data.map((d)=>{
-            console.log(d.ImagePath);
               return(
                   <div className="col" key={d.ProductID}>
                     <div className="card">

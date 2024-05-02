@@ -165,6 +165,18 @@ dataPool.addToCart=(userID, productID) =>{
     });
 }
 
+//search products
+dataPool.search=(search) =>{
+    return new Promise((resolve, reject)=>{
+        conn.query(`SELECT * FROM Product WHERE Name LIKE ?`, '%'+search+'%',(err, results)=>{
+            if(err){
+                return reject(err)
+            }
+            return resolve(results)
+        })
+    })
+}
+
 
 conn.connect(err=>{
     if(err){

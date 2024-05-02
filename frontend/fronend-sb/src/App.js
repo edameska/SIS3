@@ -10,6 +10,7 @@ import OneProductView from "./CustomComponents/OneProduct";
 import ProfileView from "./CustomComponents/ProfileView";
 import WishlistView from "./CustomComponents/WishListView";
 import CartView from "./CustomComponents/CartView";
+import SearchView from "./CustomComponents/SearchView";
 
 //app exports what its rendering
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
     this.state={
       CurrentPage:"none",
       productID:0,
+      products:[],
       userStatus:{
         logged:false,
         user:{}
@@ -57,7 +59,9 @@ class App extends Component {
         case "wishlist":
           return <WishlistView QsetViewInParent={this.QSetView} userID={userID}/>    
         case "cart":
-          return <CartView QsetViewInParent={this.QSetView} userID={userID}/>  
+          return <CartView QsetViewInParent={this.QSetView} userID={userID}/> 
+        case "search":
+          return <SearchView products={this.state.products} QsetViewInParent={this.QSetView} /> 
         default:
           return <HomeView/>
       }
@@ -65,12 +69,23 @@ class App extends Component {
 
     handleSubmit = (event) => {
       event.preventDefault(); 
-      console.log(event.target[0].value);
-      //search
-
-
+      const searchQuery = event.target[0].value.trim(); 
+      if (searchQuery) {
+        axios.get(`http://88.200.63.148:8121/products/search/${searchQuery}`)
+          .then(response => {
+            console.log(response.data); 
+            this.setState({
+              products: response.data ,
+              CurrentPage: "search"
+            });
+          })
+          .catch(error => {
+            console.error('Error searching for products:', error.message);
+          });
+      }
       event.target.reset();
     };
+    
     
     QSetUser=(obj)=>{
       this.setState({
