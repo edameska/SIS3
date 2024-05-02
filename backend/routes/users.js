@@ -28,6 +28,20 @@ users.get("/login", (req, res) => {
     }
 });
 
+//logout
+users.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error destroying session:", err);
+      res.sendStatus(500); 
+    } else {
+      console.log("Session destroyed");
+      res.sendStatus(200);
+    }
+  });
+});
+
+
 users.post('/login', async (req, res, next) => {
     try{
      const username = req.body.username;

@@ -80,7 +80,7 @@ class OneProductView extends Component {
 }
 
 OneProductView.propTypes = {
-  data: PropTypes.string.isRequired, // Make it required and specify type (string in this case)
+  data: PropTypes.number.isRequired, // Make it required and specify type (string in this case)
   QViewFromChild: PropTypes.func.isRequired,
 };
 

@@ -45,7 +45,7 @@ class SearchView extends Component {
               );
             })
           ) : (
-            <p>Loading...</p>
+            <p>No such product is found</p>
           )}
         </div>
       );

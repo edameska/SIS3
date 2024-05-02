@@ -86,6 +86,19 @@ class App extends Component {
       event.target.reset();
     };
     
+    QLogout=()=>{
+      axios.post(`http://88.200.63.148:8121/users/logout`)
+      .then(response => {
+        console.log(response)
+        this.setState({
+          CurrentPage:"home",
+          userStatus:{logged:false, user:{}}
+        })
+      })
+      .catch(error => {
+        console.error('Error:', error.message);
+      });
+    }
     
     QSetUser=(obj)=>{
       this.setState({
@@ -185,12 +198,18 @@ class App extends Component {
                       Sign up
                     </a>
                   </li>
-
+                {!this.state.userStatus.logged ? 
                   <li className="nav-item">
                     <a onClick={()=>this.QSetView({page:"login"})} className="nav-link " href="#">
                       Login
                     </a>
                   </li>
+                  :  
+                    <li className="nav-item">
+                  <a onClick={()=>this.QLogout()} className="nav-link " href="#">
+                    Logout
+                  </a>
+                </li>}
                
                 </ul>
                 <form className="form-inline d-lg-none" onSubmit={this.handleSubmit}>
