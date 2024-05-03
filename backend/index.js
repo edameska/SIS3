@@ -9,6 +9,8 @@ const port=process.env.PORT||8121;
 
 const products = require("./routes/products")
 const users = require('./routes/users')
+const wishlist = require('./routes/wishlist')
+const cart = require('./routes/cart')
 
 app.use(cookieParser("secretpassword"))//to parse cookies
 app.use(express.json())//to send between frontend and backend
@@ -28,7 +30,8 @@ app.get("/",(req,res)=>{
 
 app.use("/products", products)
 app.use('/users', users)
-
+app.use('/wishlist',wishlist)
+app.use('/cart',cart)
 
 //process gives us port or we use one provideed by us
 app.listen(port, ()=>

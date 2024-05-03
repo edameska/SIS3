@@ -53,7 +53,7 @@ class App extends Component {
         case "signup":
           return <SignupView QUserFromChild={this.QHandleUserLog}/>
         case "oneProduct":
-          return <OneProductView QViewFromChild={this.QSetView} data={this.state.productID} />;  
+          return <OneProductView QViewFromChild={this.QSetView} data={this.state.productID} userStatus={this.state.userStatus}/>;  
         case "profile":
           return <ProfileView key={this.state.userStatus.user.id} user={this.state.userStatus.user}/>  
         case "wishlist":

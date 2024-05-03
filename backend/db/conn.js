@@ -88,20 +88,41 @@ dataPool.addUser = (username,pass,email,name,surname,country) => {
     })
 }
 
-dataPool.editUserProfile = (userId, username, email, name, surname, country) => {
+//do it for cart as well
+dataPool.addUser = (username, pass, email, name, surname, country) => {
     return new Promise((resolve, reject) => {
-        conn.query(
-            `UPDATE User SET Username = ?, Email = ?, Name = ?, Surname = ?, Country = ? WHERE ID = ?`,
-            [username, email, name, surname, country, userId],
-            (err, results) => {
-                if (err) {
-                    return reject(err);
-                }
-                return resolve(results);
+        conn.beginTransaction((err) => {
+            if (err) {
+                return reject(err);
             }
-        );
+            // Insert user
+            conn.query(`INSERT INTO User (Username, Password, Email, Name, Surname, Country, Role) VALUES (?, ?, ?, ?, ?, ?, 'Customer')`, [username, pass, email, name, surname, country], (err, results) => {
+                if (err) {
+                    conn.rollback(() => {
+                        reject(err);
+                    });
+                }
+                // Insert wishlist
+                conn.query(`INSERT INTO Wishlist (UserID) VALUES (?)`, [result.insertId], (err, wResult) => {
+                    if (err) {
+                        conn.rollback(() => {
+                            reject(err);
+                        });
+                    }
+                    conn.commit((err) => {
+                        if (err) {
+                            conn.rollback(() => {
+                                reject(err);
+                            });
+                        }
+                        resolve({ user: results, wishlist: wResult });
+                    });
+                });
+            });
+        });
     });
 };
+
 
 
 //stock level, id auto incremented
@@ -117,7 +138,7 @@ dataPool.addProduct= (name,price,weight,height,width,depth,desc,stocklevel) =>{
 
 }
 //adding product to wishlist
-dataPool.addToWishlist=(userID, productID) =>{
+dataPool.addToWishlist = (userID, productID) => {
     return new Promise((resolve, reject) => {
         // Check if the product is already in the wishlist
         conn.query(`SELECT * FROM WishlistItem WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
@@ -125,13 +146,18 @@ dataPool.addToWishlist=(userID, productID) =>{
                 return reject(err);
             }
             
-            // If the product is already in the wishlist, return a message or handle it as per your requirement
+            // If the product is already in the wishlist, reject
             if (results.length > 0) {
                 return reject('Product already exists in the wishlist.');
             }
             
             // If the product is not in the wishlist, insert it
-            conn.query(`INSERT INTO WishlistItem (UserID, ProductID) VALUES (?, ?)`, [userID, productID], (err, results) => {
+            conn.query(`
+            INSERT INTO WishlistItem (WishlistID, UserID, ProductID) 
+            SELECT w.WishlistID, ?, ? 
+            FROM Wishlist w 
+            WHERE w.UserID = ?
+        `, [userID, productID, userID], (err, results) => {
                 if (err) {
                     return reject(err);
                 }
@@ -140,6 +166,7 @@ dataPool.addToWishlist=(userID, productID) =>{
         });
     });
 }
+
 //adding to cart
 dataPool.addToCart=(userID, productID) =>{
     return new Promise((resolve, reject) => {

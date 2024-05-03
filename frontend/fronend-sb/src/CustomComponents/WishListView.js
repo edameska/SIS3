@@ -31,7 +31,6 @@ class WishListView extends Component {
   }
   
 
-  //create routers dor wishlist
   
 
   render() {

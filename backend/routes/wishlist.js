@@ -26,27 +26,30 @@ wishlist.get("/:id", async (req, res, next) => {
 
 // Route to add a new product to the wishlist
 wishlist.post("/", async (req, res, next) => {
-  let { userID, productID } = req.body;
-  let isCompleteRequest = userID && productID;
+  const { userID, productID } = req.body;
 
-  if (isCompleteRequest) {
-    try {
-      let queryResult = await db.addProductToWishlist(userID, productID);
-      if (queryResult.affectedRows) {
-        console.log("Product added to wishlist");
-        res.sendStatus(200);
-      } else {
-        console.log("Failed to add product to wishlist");
-        res.sendStatus(500);
-      }
-    } catch (err) {
-      console.error(err);
-      res.sendStatus(500);
-    }
-  } else {
+  if (!userID || !productID) {
     console.log("Missing fields in request");
-    res.sendStatus(400);
+    return res.sendStatus(400);
+  }
+
+  try {
+    const queryResult = await db.addToWishlist(userID, productID);
+    if (queryResult === 'Product added to wishlist successfully.') {
+      console.log("Product added to wishlist");
+      return res.sendStatus(200);
+    } else if (queryResult === 'Product already exists in the wishlist.') {
+      console.log("Product already exists in the wishlist");
+      return res.sendStatus(409);
+    } else {
+      console.log("Failed to add product to wishlist");
+      return res.sendStatus(500);
+    }
+  } catch (err) {
+    console.error(err);
+    return res.sendStatus(500);
   }
 });
 
 module.exports = wishlist;
+
