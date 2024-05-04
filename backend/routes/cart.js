@@ -4,8 +4,9 @@ const db = require("../db/conn.js");
 
 // Route to get all products in the wishlist
 cart.get("/all/:id", async (req, res, next) => {
+  const userID = req.params.id;
   try {
-    let queryResult = await db.allProductsC();
+    let queryResult = await db.allProductsC(userID);
     res.json(queryResult);
   } catch (err) {
     console.error(err);

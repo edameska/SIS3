@@ -135,6 +135,7 @@ class App extends Component {
                 Timeless Treasure
               </a>
             <div className="togglebar">
+            {this.state.userStatus.logged ? 
               <div className="d-flex cart d-lg-none">
                   <button onClick={()=>this.QSetView({page:"cart"})} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" className="bi bi-truck" viewBox="0 0 16 16">
@@ -147,7 +148,7 @@ class App extends Component {
                     <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
                   </svg>
               </button>
-            </div>
+            </div>:null}
               <button
                 className="navbar-toggler"
                 type="button"
@@ -225,20 +226,20 @@ class App extends Component {
         
             
       </div>
-            
+      {this.state.userStatus.logged ? 
         <div className="d-none cart d-lg-flex">
-              <button onClick={()=>this.QSetView({page:"about"})} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
+              <button onClick={()=>this.QSetView({page:"cart"})} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" className="bi bi-truck" viewBox="0 0 16 16">
                 <path d="M11.5 4a.5.5 0 0 1 .5.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-4 0 1 1 0 0 1-1-1v-1h11V4.5a.5.5 0 0 1 .5-.5M3 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2m1.732 0h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4a2 2 0 0 1 1.732 1"/>
               </svg>
             </button>
 
-            <button onClick={()=>this.QSetView({page:"about"})} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
+            <button onClick={()=>this.QSetView({page:"wishlist"})} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" className="bi bi-heart-fill" viewBox="0 0 16 16">
                 <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
               </svg>
           </button>
-        </div>
+        </div>: null}
 
           </nav>
         </div>

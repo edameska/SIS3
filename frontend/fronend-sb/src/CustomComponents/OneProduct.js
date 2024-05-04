@@ -108,7 +108,6 @@ class OneProductView extends Component {
         this.setState({ product: response.data }, () => {
           this.isInWishlist(); // Call isInWishlist after product data is set
           console.log("Product data:", this.state.product);
-          console.log(this.AddToCart);
 
         });
       })

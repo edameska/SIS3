@@ -124,7 +124,7 @@ dataPool.removeWishlistItem = (userID, productID) => {
 //cart
 dataPool.allProductsC = (id) => {
     return new Promise((resolve, reject)=>{
-        conn.query(`SELECT Product.* 
+        conn.query(`SELECT Product.* , CartItems.quantity
                     FROM Product
                     INNER JOIN CartItems ON Product.ProductID = CartItems.ProductID 
                     INNER JOIN Cart ON CartItems.CartID = Cart.CartID 
