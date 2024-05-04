@@ -125,17 +125,60 @@ dataPool.removeWishlistItem = (userID, productID) => {
 dataPool.allProductsC = (id) => {
     return new Promise((resolve, reject)=>{
         conn.query(`SELECT Product.* 
-        FROM Product 
-        INNER JOIN CartItem ON Product.ProductID = CartItem.ProductID 
-        INNER JOIN Cart ON CartItem.CartID = Cart.CartID 
-        WHERE Cart.UserID = ?`, id ,(err, results)=>{
+                    FROM Product
+                    INNER JOIN CartItems ON Product.ProductID = CartItems.ProductID 
+                    INNER JOIN Cart ON CartItems.CartID = Cart.CartID 
+                    WHERE Cart.UserID = ?`, [id], (err, results)=>{
             if(err){
-                return reject(err)
+                return reject(err);
             }
-            return resolve(results)
-        })
-    })
+            return resolve(results);
+        });
+    });
 }
+
+
+//adding to cart
+dataPool.addToCart = (userID, productID) => {
+    return new Promise((resolve, reject) => {
+        // Check if the product is already in the cart
+        conn.query(`SELECT * FROM CartItems WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            
+            // If the product is already in the cart
+            if (results.length > 0) {
+                // Increase the quantity
+                conn.query(`
+                    UPDATE CartItems 
+                    SET Quantity = Quantity + 1 
+                    WHERE UserID = ? AND ProductID = ?
+                `, [userID, productID], (err, results) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve('Quantity increased in the cart.');
+                });
+            } else {
+                // If the product is not in the cart, insert it
+                conn.query(`
+                    INSERT INTO CartItems (CartID, UserID, ProductID, Quantity) 
+                    SELECT c.CartID, ?, ?, 1 
+                    FROM Cart c 
+                    WHERE c.UserID = ?
+                `, [userID, productID, userID], (err, results) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve('Product added to cart successfully.');
+                });
+            }
+        });
+    });
+}
+
+
 
 
 
@@ -162,7 +205,6 @@ dataPool.addUser = (username,pass,email,name,surname,country) => {
     })
 }
 
-//do it for cart as well
 dataPool.addUser = (username, pass, email, name, surname, country) => {
     return new Promise((resolve, reject) => {
         conn.beginTransaction((err) => {
@@ -170,26 +212,34 @@ dataPool.addUser = (username, pass, email, name, surname, country) => {
                 return reject(err);
             }
             // Insert user
-            conn.query(`INSERT INTO User (Username, Password, Email, Name, Surname, Country, Role) VALUES (?, ?, ?, ?, ?, ?, 'Customer')`, [username, pass, email, name, surname, country], (err, results) => {
+            conn.query(`INSERT INTO User (Username, Password, Email, Name, Surname, Country, Role) VALUES (?, ?, ?, ?, ?, ?, 'Customer')`, [username, pass, email, name, surname, country], (err, userResult) => {
                 if (err) {
                     conn.rollback(() => {
                         reject(err);
                     });
                 }
                 // Insert wishlist
-                conn.query(`INSERT INTO Wishlist (UserID) VALUES (?)`, [result.insertId], (err, wResult) => {
+                conn.query(`INSERT INTO Wishlist (UserID) VALUES (?)`, [userResult.insertId], (err, wishlistResult) => {
                     if (err) {
                         conn.rollback(() => {
                             reject(err);
                         });
                     }
-                    conn.commit((err) => {
+                    // Insert cart
+                    conn.query(`INSERT INTO Cart (UserID) VALUES (?)`, [userResult.insertId], (err, cartResult) => {
                         if (err) {
                             conn.rollback(() => {
                                 reject(err);
                             });
                         }
-                        resolve({ user: results, wishlist: wResult });
+                        conn.commit((err) => {
+                            if (err) {
+                                conn.rollback(() => {
+                                    reject(err);
+                                });
+                            }
+                            resolve({ user: userResult, wishlist: wishlistResult, cart: cartResult });
+                        });
                     });
                 });
             });
@@ -199,7 +249,8 @@ dataPool.addUser = (username, pass, email, name, surname, country) => {
 
 
 
-//stock level, id auto incremented
+
+// id auto incremented
 dataPool.addProduct= (name,price,weight,height,width,depth,desc,stocklevel) =>{
     return new Promise((resolve, reject)=>{
         conn.query(`INSERT INTO Product (Name,Price,Weight,Height,Width,Depth,Description,StockLevel) VALUES (?, ?, ?, ?, ?, ?, ?,?)`, [name,price,weight,height,width,depth,desc,stocklevel],(err, results)=>{
@@ -212,31 +263,6 @@ dataPool.addProduct= (name,price,weight,height,width,depth,desc,stocklevel) =>{
 
 }
 
-
-//adding to cart
-dataPool.addToCart=(userID, productID) =>{
-    return new Promise((resolve, reject) => {
-        // Check if the product is already in the cart
-        conn.query(`SELECT * FROM CartItem WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
-            if (err) {
-                return reject(err);
-            }
-            
-            // If the product is already in the cart
-            if (results.length > 0) {
-                return reject('Product already exists in the cart.');
-            }
-            
-            // If the product is not in the cart, insert it
-            conn.query(`INSERT INTO CartItem (UserID, ProductID) VALUES (?, ?)`, [userID, productID], (err, results) => {
-                if (err) {
-                    return reject(err);
-                }
-                return resolve('Product added to cart successfully.');
-            });
-        });
-    });
-}
 
 //search products
 dataPool.search=(search) =>{

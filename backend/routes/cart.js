@@ -26,27 +26,30 @@ cart.get("/:id", async (req, res, next) => {
 
 // Route to add a new product to the cart
 cart.post("/", async (req, res, next) => {
-  let { userID, productID } = req.body;
-  let isCompleteRequest = userID && productID;
+  const { userID, productID } = req.body;
 
-  if (isCompleteRequest) {
-    try {
-      let queryResult = await db.addToCart(userID, productID);
-      if (queryResult.affectedRows) {
-        console.log("Product added to cart");
-        res.sendStatus(200);
-      } else {
-        console.log("Failed to add product to cart");
-        res.sendStatus(500);
-      }
-    } catch (err) {
-      console.error(err);
-      res.sendStatus(500);
-    }
-  } else {
+  if (!userID || !productID) {
     console.log("Missing fields in request");
-    res.sendStatus(400);
+    return res.sendStatus(400);
+  }
+
+  try {
+    const queryResult = await db.addToCart(userID, productID);
+    if (queryResult === 'Product added to cart successfully.') {
+      console.log("Product added to cart");
+      return res.sendStatus(200);
+    } else if (queryResult === 'Quantity increased in the cart.') {
+      console.log("Quantity increased in the cart");
+      return res.sendStatus(200);
+    } else {
+      console.log("Failed to add product to cart");
+      return res.sendStatus(500);
+    }
+  } catch (err) {
+    console.error(err);
+    return res.sendStatus(500);
   }
 });
+
 
 module.exports = cart;
