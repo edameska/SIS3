@@ -37,7 +37,7 @@ class App extends Component {
       console.log(obj)     
     }
     QGetView=(state)=>{
-      const { CurrentPage, userID } = state;
+      const { CurrentPage } = state;
       let page= CurrentPage
       switch(page){
         case "home":
@@ -57,9 +57,9 @@ class App extends Component {
         case "profile":
           return <ProfileView key={this.state.userStatus.user.id} user={this.state.userStatus.user}/>  
         case "wishlist":
-          return <WishlistView QsetViewInParent={this.QSetView} userID={userID}/>    
+          return <WishlistView QsetViewInParent={this.QSetView} userStatus={this.state.userStatus}/>    
         case "cart":
-          return <CartView QsetViewInParent={this.QSetView} userID={userID}/> 
+          return <CartView QsetViewInParent={this.QSetView} userStatus={this.state.userStatus}/> 
         case "search":
           return <SearchView products={this.state.products} QsetViewInParent={this.QSetView} /> 
         default:

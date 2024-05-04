@@ -19,8 +19,14 @@ class WishListView extends Component {
   QsetViewInParent = (obj) => {
     this.props.QsetViewInParent(obj);
   };
+
   componentDidMount() {
-    const { userID } = this.props;
+    const userID = this.props.userStatus.user.userId ? this.props.userStatus.user.userId : null;
+    if (!userID) {
+      console.log("userID prop is undefined"+userID);
+      return; // Exit early if userID is undefined
+    }
+  
     axios.get(`http://88.200.63.148:8121/wishlist/all/${userID}`)
       .then((res) => {
         this.setState({ products: res.data });
@@ -29,6 +35,7 @@ class WishListView extends Component {
         console.log("Error: " + err.message);
       });
   }
+  
   
 
   

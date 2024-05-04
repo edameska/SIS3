@@ -36,17 +36,36 @@ dataPool.oneProduct = (id)=> {
 dataPool.allProductsW = (id) => {
     return new Promise((resolve, reject)=>{
         conn.query(`SELECT Product.* 
-        FROM Product
-        INNER JOIN WishlistItem ON Product.ProductID = WishlistItem.ProductID 
-        INNER JOIN Wishlist ON WishlistItem.WishlistID = Wishlist.WishlistID 
-        WHERE Wishlist.UserID = ?`, id ,(err, results)=>{
+                    FROM Product
+                    INNER JOIN WishlistItem ON Product.ProductID = WishlistItem.ProductID 
+                    INNER JOIN Wishlist ON WishlistItem.WishlistID = Wishlist.WishlistID 
+                    WHERE Wishlist.UserID = ?`, id, (err, results)=>{
             if(err){
-                return reject(err)
+                return reject(err);
             }
-            return resolve(results)
-        })
-    })
-}
+            return resolve(results);
+        });
+    });
+};
+
+dataPool.checkIfInWishlist = (userID, productID) => {
+    return new Promise((resolve, reject) => {
+        // Check if the product is already in the wishlist
+        conn.query(`SELECT * FROM WishlistItem WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            
+            if (results.length > 0) {
+                resolve(true); // Product exists in wishlist
+            } else {
+                resolve(false); // Product doesn't exist in wishlist
+            }
+        });
+    });
+};
+
+
 //cart
 dataPool.allProductsC = (id) => {
     return new Promise((resolve, reject)=>{

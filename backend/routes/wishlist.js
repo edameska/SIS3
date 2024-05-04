@@ -4,14 +4,29 @@ const db = require("../db/conn.js");
 
 // Route to get all products in the wishlist
 wishlist.get("/all/:id", async (req, res, next) => {
+  const userID = req.params.id;
   try {
-    let queryResult = await db.allProductsW();
+    let queryResult = await db.allProductsW(userID);
     res.json(queryResult);
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
   }
 });
+
+// Route to check if a product is in the wishlist
+wishlist.get("/check", async (req, res, next) => {
+  const userID = req.query.userID;
+  const productID = req.query.productID;
+  try {
+    let isInWishlist = await db.checkIfInWishlist(userID, productID);
+    res.json({ inWishlist: isInWishlist });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
 
 // Route to get a specific product in the wishlist by ID
 wishlist.get("/:id", async (req, res, next) => {
