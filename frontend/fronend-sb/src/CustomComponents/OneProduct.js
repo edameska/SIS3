@@ -22,7 +22,6 @@ class OneProductView extends Component {
     };
   }
 
-  //error here
   AddToWishlist = () => {
     const { product } = this.state;
     const userID = this.props.userStatus.user.userId ? this.props.userStatus.user.userId : null;
@@ -34,6 +33,7 @@ class OneProductView extends Component {
     axios.post("http://88.200.63.148:8121/wishlist", { userID, productID })
       .then(() => {
         console.log("Product added to wishlist");
+        this.setState({ isInWishlist: true });
       })
       .catch(error => {
         console.error("Error:", error.message);
@@ -65,7 +65,21 @@ class OneProductView extends Component {
     }
   }
 
-  
+  RemoveFromWishlist = () => {
+    axios.delete("http://88.200.63.148:8121/wishlist", {
+      params: {
+        userID: this.props.userStatus.user.userId,
+        productID: this.state.product[0].ProductID
+      }
+    })
+    .then(() => {
+      console.log("Product removed from wishlist");
+      this.setState({ isInWishlist: false });
+    })
+    .catch(error => {
+      console.error("Error removing product from wishlist:", error);
+    });
+  }
   
 
   componentDidMount() {
@@ -73,6 +87,7 @@ class OneProductView extends Component {
       .then((response) => {
         this.setState({ product: response.data }, () => {
           this.isInWishlist(); // Call isInWishlist after product data is set
+          console.log("Product data:", this.state.product);
         });
       })
       .catch((error) => {
@@ -115,7 +130,7 @@ class OneProductView extends Component {
                   </svg>
                 </button>
                 {this.state.isInWishlist ?
-                   <button onClick={()=>this.AddToWishlist()} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
+                   <button onClick={()=>this.RemoveFromWishlist()} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" className="bi bi-heart-fill" viewBox="0 0 16 16">
                           <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
                       </svg>

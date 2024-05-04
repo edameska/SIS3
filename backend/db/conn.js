@@ -65,6 +65,61 @@ dataPool.checkIfInWishlist = (userID, productID) => {
     });
 };
 
+//adding product to wishlist
+dataPool.addToWishlist = (userID, productID) => {
+    return new Promise((resolve, reject) => {
+        // Check if the product is already in the wishlist
+        conn.query(`SELECT * FROM WishlistItem WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            
+            // If the product is already in the wishlist, reject
+            if (results.length > 0) {
+                return reject('Product already exists in the wishlist.');
+            }
+            
+            // If the product is not in the wishlist, insert it
+            conn.query(`
+            INSERT INTO WishlistItem (WishlistID, UserID, ProductID) 
+            SELECT w.WishlistID, ?, ? 
+            FROM Wishlist w 
+            WHERE w.UserID = ?
+        `, [userID, productID, userID], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve('Product added to wishlist successfully.');
+            });
+        });
+    });
+}
+
+dataPool.removeWishlistItem = (userID, productID) => {
+    return new Promise((resolve, reject) => {
+        // Check if the product is in the wishlist
+        conn.query(`SELECT * FROM WishlistItem WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            
+            // If the product is not in the wishlist, reject
+            if (results.length === 0) {
+                return reject('Product does not exist in the wishlist.');
+            }
+            
+            // If the product is in the wishlist, delete it
+            conn.query(`DELETE FROM WishlistItem WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve('Product removed from wishlist successfully.');
+            });
+        });
+    });
+
+}
+
 
 //cart
 dataPool.allProductsC = (id) => {
@@ -156,35 +211,7 @@ dataPool.addProduct= (name,price,weight,height,width,depth,desc,stocklevel) =>{
     })
 
 }
-//adding product to wishlist
-dataPool.addToWishlist = (userID, productID) => {
-    return new Promise((resolve, reject) => {
-        // Check if the product is already in the wishlist
-        conn.query(`SELECT * FROM WishlistItem WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
-            if (err) {
-                return reject(err);
-            }
-            
-            // If the product is already in the wishlist, reject
-            if (results.length > 0) {
-                return reject('Product already exists in the wishlist.');
-            }
-            
-            // If the product is not in the wishlist, insert it
-            conn.query(`
-            INSERT INTO WishlistItem (WishlistID, UserID, ProductID) 
-            SELECT w.WishlistID, ?, ? 
-            FROM Wishlist w 
-            WHERE w.UserID = ?
-        `, [userID, productID, userID], (err, results) => {
-                if (err) {
-                    return reject(err);
-                }
-                return resolve('Product added to wishlist successfully.');
-            });
-        });
-    });
-}
+
 
 //adding to cart
 dataPool.addToCart=(userID, productID) =>{

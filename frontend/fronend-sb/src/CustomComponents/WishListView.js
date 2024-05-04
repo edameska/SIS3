@@ -5,6 +5,9 @@ import PropTypes from "prop-types";
 import WhiteDolomite from "../Images/WhiteDolomite.jpg";
 import SemiWhiteCalcite from "../Images/SemiWhiteCalcite.jpg";
 import Tombolone from "../Images/Tombolone.jpg";
+import SemiWhiteCalcite2 from "../Images/SemiWhite2.jpg";
+import Tombolone2 from "../Images/Tombolon2.jpg";
+
 
 
 class WishListView extends Component {
@@ -45,7 +48,9 @@ class WishListView extends Component {
     const imageMap = {
       1: WhiteDolomite,
       2: SemiWhiteCalcite,
-      3: Tombolone
+      3: Tombolone,
+      4: SemiWhiteCalcite2,
+      5: Tombolone2
     };
     
     return (
@@ -56,8 +61,8 @@ class WishListView extends Component {
 
       {data.length > 0 ?
           data.map((d)=>{
-            console.log(d.ImagePath);
-              return(
+            console.log("ProductID:", d.ProductID); // Log the ProductID
+            return(
                   <div className="col" key={d.ProductID}>
                     <div className="card">
                         <div className="card-body">
@@ -66,7 +71,7 @@ class WishListView extends Component {
                             <img src={imageMap[d.ProductID]} alt="Product" style={{width:"100%"}} />
                         </div>
                         <button 
-                        onClick={() => this.QsetViewInParent({page:"oneProduct", id:d.ProductID})}
+                        onClick={() => this.QsetViewInParent({page:"oneProduct", productID:d.ProductID})}
                         style={{margin:"10px"}}  
                         className="btn btn-primary bt">Read more</button>
                     </div>
@@ -83,7 +88,7 @@ class WishListView extends Component {
 
 WishListView.propTypes = {
   QsetViewInParent: PropTypes.func.isRequired,
-  userID: PropTypes.string.isRequired, // Validate userID prop
+  userStatus: PropTypes.object.isRequired,
 };
 
 export default WishListView;

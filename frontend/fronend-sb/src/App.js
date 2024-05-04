@@ -32,10 +32,11 @@ class App extends Component {
     QSetView=(obj)=>{
       this.setState({
         CurrentPage:obj.page,
-        productID:obj.productID||1
+        productID:obj.productID
       }) 
       console.log(obj)     
     }
+
     QGetView=(state)=>{
       const { CurrentPage } = state;
       let page= CurrentPage
