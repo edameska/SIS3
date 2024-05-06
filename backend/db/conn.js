@@ -178,7 +178,78 @@ dataPool.addToCart = (userID, productID) => {
     });
 }
 
+dataPool.updateCartQuantity = (userID, productID, quantity) => {
+    return new Promise((resolve, reject) => {
+        // Check if the product is in the cart
+        conn.query(`SELECT * FROM CartItems WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            
+            // If the product is not in the cart
+            if (results.length === 0) {
+                return reject('Product does not exist in the cart.');
+            }
+            
+            // If the product is in the cart, update the quantity
+            conn.query(`
+                UPDATE CartItems 
+                SET Quantity = ? 
+                WHERE UserID = ? AND ProductID = ?
+            `, [quantity, userID, productID], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                conn.query(`SELECT Product.* , CartItems.quantity
+                FROM Product
+                INNER JOIN CartItems ON Product.ProductID = CartItems.ProductID 
+                INNER JOIN Cart ON CartItems.CartID = Cart.CartID 
+                WHERE Cart.UserID = ?`, [userID], (err, updatedProducts) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    
+                    return resolve(updatedProducts);
+                });
+            });
+        });
+    });
+}
 
+dataPool.removeCartItem = (userID, productID) => {
+    return new Promise((resolve, reject) => {
+        // Check if the product is in the cart
+        conn.query(`SELECT * FROM CartItems WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            
+            // If the product is not in the cart
+            if (results.length === 0) {
+                return reject('Product does not exist in the cart.');
+            }
+            
+            // If the product is in the cart, delete it
+            conn.query(`DELETE FROM CartItems WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                conn.query(`SELECT Product.* , CartItems.quantity
+                FROM Product
+                INNER JOIN CartItems ON Product.ProductID = CartItems.ProductID 
+                INNER JOIN Cart ON CartItems.CartID = Cart.CartID 
+                WHERE Cart.UserID = ?`, [userID], (err, updatedProducts) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    
+                    return resolve(updatedProducts);
+            });
+        });
+    });
+
+})
+}
 
 
 
