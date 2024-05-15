@@ -6,7 +6,7 @@ import MarbleLake4 from "../Images/MarbleLake4.jpg";
 import MarbleLake5 from "../Images/MarbleLake5.jpg";
 
 import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 
 class HomeView extends Component {
@@ -14,7 +14,7 @@ class HomeView extends Component {
   
     render() {
       return (
-          <div>
+          <div >
               <div className="card" style={{margin:"10px"}}>
                   <div className="card-body">
                       <h5 className="card-title">Welcome to our Marble Collection!</h5>
@@ -22,7 +22,7 @@ class HomeView extends Component {
                   </div>
               </div>
   
-              <Carousel className="mainCaruselDiv">
+              <Carousel className="mainCaruselDiv" autoPlay={true} interval={4000} infiniteLoop={true}>
               <div>
                       <img className="carousel" src={MarbleLake5} />
                   </div>

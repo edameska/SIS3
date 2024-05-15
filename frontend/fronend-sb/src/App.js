@@ -123,9 +123,9 @@ class App extends Component {
 
   render() {
     return (
-      <div id="APP" className="container-fluid">
+      <div id="APP" className="container-fluid" >
          <div id="menu" className="row">
-          <nav className="navbar navbar-expand-lg navbar-light" style={{ width: "100%" }}>
+          <nav className="navbar navbar-expand-lg ">
             <div className="container-fluid">
               <a onClick={()=>this.QSetView({page:"home"})}className="navbar-brand" href="#">
                 Timeless Treasure
@@ -240,7 +240,7 @@ class App extends Component {
           </nav>
         </div>
 
-        <div id="viewer" className="row container">
+        <div id="viewer" className="row container" style={{marginLeft:"10%"}}>
           {this.QGetView(this.state)}
 
         </div>
