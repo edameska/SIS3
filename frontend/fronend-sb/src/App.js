@@ -164,7 +164,7 @@ class App extends Component {
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
                     <a onClick={()=>this.QSetView({page:"about"})} className="nav-link " href="#">
-                      About
+                      Contact us
                     </a>
                   </li>
 

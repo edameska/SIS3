@@ -11,6 +11,7 @@ const products = require("./routes/products")
 const users = require('./routes/users')
 const wishlist = require('./routes/wishlist')
 const cart = require('./routes/cart')
+const contact= require('./routes/contact')
 
 app.use(cookieParser("secretpassword"))//to parse cookies
 app.use(express.json())//to send between frontend and backend
@@ -32,6 +33,7 @@ app.use("/products", products)
 app.use('/users', users)
 app.use('/wishlist',wishlist)
 app.use('/cart',cart)
+app.use('/contact',contact)
 
 //process gives us port or we use one provideed by us
 app.listen(port, ()=>

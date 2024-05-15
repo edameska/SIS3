@@ -347,6 +347,17 @@ dataPool.search=(search) =>{
         })
     })
 }
+//email
+dataPool.recieveEmail=(email,message) =>{
+    return new Promise((resolve, reject)=>{
+        conn.query(`INSERT INTO EmailResponse (email, text) VALUES (?, ?)`, [email,message],(err, results)=>{
+            if(err){
+                return reject(err)
+            }
+            return resolve(results)
+        })
+    })    
+}
 
 
 conn.connect(err=>{
