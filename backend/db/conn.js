@@ -139,7 +139,7 @@ dataPool.allProductsC = (id) => {
 
 
 //adding to cart
-dataPool.addToCart = (userID, productID) => {
+dataPool.addToCart = (userID, productID, quantity) => {
     return new Promise((resolve, reject) => {
         // Check if the product is already in the cart
         conn.query(`SELECT * FROM CartItems WHERE UserID = ? AND ProductID = ?`, [userID, productID], (err, results) => {
@@ -152,9 +152,9 @@ dataPool.addToCart = (userID, productID) => {
                 // Increase the quantity
                 conn.query(`
                     UPDATE CartItems 
-                    SET Quantity = Quantity + 1 
+                    SET Quantity = Quantity + ?
                     WHERE UserID = ? AND ProductID = ?
-                `, [userID, productID], (err, results) => {
+                `, [quantity, userID, productID], (err, results) => {
                     if (err) {
                         return reject(err);
                     }
@@ -164,10 +164,10 @@ dataPool.addToCart = (userID, productID) => {
                 // If the product is not in the cart, insert it
                 conn.query(`
                     INSERT INTO CartItems (CartID, UserID, ProductID, Quantity) 
-                    SELECT c.CartID, ?, ?, 1 
+                    SELECT c.CartID, ?, ?, ?
                     FROM Cart c 
                     WHERE c.UserID = ?
-                `, [userID, productID, userID], (err, results) => {
+                `, [userID, productID, quantity, userID], (err, results) => {
                     if (err) {
                         return reject(err);
                     }
@@ -176,7 +176,8 @@ dataPool.addToCart = (userID, productID) => {
             }
         });
     });
-}
+};
+
 
 dataPool.updateCartQuantity = (userID, productID, quantity) => {
     return new Promise((resolve, reject) => {

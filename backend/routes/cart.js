@@ -27,15 +27,15 @@ cart.get("/:id", async (req, res, next) => {
 
 // Route to add a new product to the cart
 cart.post("/", async (req, res, next) => {
-  const { userID, productID } = req.body;
+  const { userID, productID, quantity } = req.body;
 
-  if (!userID || !productID) {
+  if (!userID || !productID || !quantity) {
     console.log("Missing fields in request");
     return res.sendStatus(400);
   }
 
   try {
-    const queryResult = await db.addToCart(userID, productID);
+    const queryResult = await db.addToCart(userID, productID, quantity);
     if (queryResult === 'Product added to cart successfully.') {
       console.log("Product added to cart");
       return res.sendStatus(200);

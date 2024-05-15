@@ -122,14 +122,10 @@ class App extends Component {
     }
 
   render() {
-    
-
-    //inbuilt function
-    //add functionality to search bar
     return (
-      <div id="APP" className="container">
+      <div id="APP" className="container-fluid">
          <div id="menu" className="row">
-          <nav className="navbar navbar-expand-lg">
+          <nav className="navbar navbar-expand-lg navbar-light" style={{ width: "100%" }}>
             <div className="container-fluid">
               <a onClick={()=>this.QSetView({page:"home"})}className="navbar-brand" href="#">
                 Timeless Treasure
