@@ -13,7 +13,7 @@ contact.post('/', async (req, res) => {
     try {
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
-            port: 587,
+            port: 587,// Port for transport layer security
             secure: false,
             auth: {
                 user: process.env.EMAIL,

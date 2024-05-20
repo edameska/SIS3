@@ -265,17 +265,20 @@ dataPool.authUser = (username) => {
       
 }
 
-
-dataPool.addUser = (username,pass,email,name,surname,country) => {
+dataPool.editUserProfile = (id, username, email, name, surname, country) => {
     return new Promise((resolve, reject)=>{
-        conn.query(`INSERT INTO User (Username,Password,Email,Name,Surname,Country,Role) VALUES (?, ?, ?, ?, ?, ?,'Customer')`, [username,pass,email,name,surname,country], (err, results)=>{
+        conn.query(`UPDATE User SET Username = ?, Email = ?, Name = ?, Surname = ?, Country = ? WHERE ID = ?`, [username, email, name, surname, country, id], (err, results)=>{
             if(err){
                 return reject(err)
             }
             return resolve(results)
-        })
-    })
+        });
+    });
+
 }
+
+
+
 
 dataPool.addUser = (username, pass, email, name, surname, country) => {
     return new Promise((resolve, reject) => {
