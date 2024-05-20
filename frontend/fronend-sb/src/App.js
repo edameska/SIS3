@@ -1,5 +1,8 @@
 import { Component } from "react";
 import axios from "axios";
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+
 import AboutView from "./CustomComponents/AboutView";
 import HomeView from "./CustomComponents/HomeView";
 import ProductView from "./CustomComponents/ProductView";
@@ -241,6 +244,18 @@ class App extends Component {
         </div>
 
         <div id="viewer" className="row container" style={{marginLeft:"10%"}}>
+        <ToastContainer 
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"/>
+
           {this.QGetView(this.state)}
 
         </div>

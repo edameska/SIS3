@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import WhiteDolomite from "../Images/WhiteDolomite.jpg";
 import SemiWhiteCalcite from "../Images/SemiWhiteCalcite.jpg";
 import Tombolone from "../Images/Tombolone.jpg";
 import SemiWhiteCalcite2 from "../Images/SemiWhite2.jpg";
 import Tombolone2 from "../Images/Tombolon2.jpg";
+
 
 class OneProductView extends Component {
   QSetViewInParent = (obj) => {
@@ -83,7 +85,7 @@ class OneProductView extends Component {
       console.error("Error removing product from wishlist:", error);
     });
   }
-
+  
   //cart
   AddToCart = () => {
     const { product } = this.state;
@@ -97,9 +99,20 @@ class OneProductView extends Component {
     axios.post("http://88.200.63.148:8121/cart", { userID, productID, quantity})
     .then(() => {
       console.log("Product added to cart");
+      toast.success("✅ Product added to cart successfully!",{
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     })
     .catch(error => {
       console.error("Error:", error.message);
+      toast.error("Error adding product to cart.");
     });
   }
   

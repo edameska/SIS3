@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types'; // Import PropTypes
 import axios from "axios";
-
+import { toast } from "react-toastify";
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -38,9 +38,13 @@ class Profile extends Component {
     })
     .then((response) => {
       console.log("Profile updated successfully"+response.data);
+      toast.success("Profile updated successfully");
+      
     })
     .catch((error) => {
       console.log("Error updating profile: " + error.message);
+      toast.error("Error updating profile");
+      location.reload();
     });
     
   }

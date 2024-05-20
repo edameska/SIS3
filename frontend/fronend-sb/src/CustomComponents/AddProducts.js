@@ -17,26 +17,46 @@ class AddProducts extends Component{
     this.setState(prevState=>({
         product:{...prevState.product, [e.target.name]:e.target.value}
     })
-  ) 
+  )}
+  QFileUpload = (e) => {
+    this.setState(prevState => ({
+      product: {
+        ...prevState.product,
+        image: e.target.files[0]
+      }
+    }));
   }
+  
+  
+
 
   addProduct = (product) => {
-    axios.post("http://88.200.63.148:8121/products", {
-      Name: product.productName,
-      Price: product.pricePerTon,
-      Weight: product.weight,
-      Height: product.height,
-      Width: product.width,
-      Depth: product.depth,
-      StockLevel: product.stockLevel,
-      Description: product.description,
-    }).then(res=>{
-      console.log("Sent to server"+res)
-    }).catch(err=>{
-      console.log(err.message)
-    })
-    this.props.QViewFromChild({page:"products"})
+    console.log(product); // Log the product
+  
+    // Destructure the product from state
+    const { image, productName, pricePerTon, weight, height, width, depth, stockLevel, description } = this.state.product;
+  
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('Name', productName);
+    formData.append('Price', pricePerTon);
+    formData.append('Weight', weight);
+    formData.append('Height', height);
+    formData.append('Width', width);
+    formData.append('Depth', depth);
+    formData.append('StockLevel', stockLevel);
+    formData.append('Description', description);
+    
+    axios.post("http://88.200.63.148:8121/products", formData)
+      .then(res => {
+        console.log("Sent to server" + res);
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
   }
+  
+  
 
 render(){
   console.log(this.state.product)
@@ -123,6 +143,16 @@ render(){
           <label className="form-label">Description</label>
           <textarea name="description" onChange={(e)=>this.QGetText(e)} className="form-control" rows="3"></textarea>
         </div>
+        <div className="mb-3">
+          <label htmlFor="formFile" className="form-label">Default file input example</label>
+          <input className="form-control" 
+          type="file" 
+          id="image"
+          name="image"
+          onChange={(e) => {this.QFileUpload(e)}} 
+          />
+        </div>
+
         <button  onClick={()=>this.addProduct(this.state.product)}
         className="btn btn-primary bt" style={{ margin: "10px" }}>
           Send

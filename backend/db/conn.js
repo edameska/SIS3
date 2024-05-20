@@ -326,9 +326,9 @@ dataPool.addUser = (username, pass, email, name, surname, country) => {
 
 
 // id auto incremented
-dataPool.addProduct= (name,price,weight,height,width,depth,desc,stocklevel) =>{
+dataPool.addProduct= (name,price,weight,height,width,depth,desc,stocklevel,image) =>{
     return new Promise((resolve, reject)=>{
-        conn.query(`INSERT INTO Product (Name,Price,Weight,Height,Width,Depth,Description,StockLevel) VALUES (?, ?, ?, ?, ?, ?, ?,?)`, [name,price,weight,height,width,depth,desc,stocklevel],(err, results)=>{
+        conn.query(`INSERT INTO Product (Name,Price,Weight,Height,Width,Depth,Description,StockLevel,Pictures) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)`, [name,price,weight,height,width,depth,desc,stocklevel,image],(err, results)=>{
             if(err){
                 return reject(err)
             }

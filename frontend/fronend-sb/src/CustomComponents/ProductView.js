@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-
-import WhiteDolomite from "../Images/WhiteDolomite.jpg";
-import SemiWhiteCalcite from "../Images/SemiWhiteCalcite.jpg";
-import Tombolone from "../Images/Tombolone.jpg";
-import SemiWhiteCalcite2 from "../Images/SemiWhite2.jpg";
-import Tombolone2 from "../Images/Tombolon2.jpg";
+import {imgPath } from '../essentials/configuration';
 
 
 
@@ -25,6 +20,7 @@ class ProductView extends Component {
   componentDidMount() {
     axios.get("http://88.200.63.148:8121/products").then((res) => {
       this.setState({ products: res.data });
+      console.log(res.data);
     }).catch((err) => {
       console.log("Error: "+ err.message);
     });
@@ -35,13 +31,6 @@ class ProductView extends Component {
 
   render() {
     let data = this.state.products;
-    const imageMap = {
-      1: WhiteDolomite,
-      2: SemiWhiteCalcite,
-      3: Tombolone,
-      4: SemiWhiteCalcite2,
-      5: Tombolone2
-    };
     
     return (
       <div className="row row-cols-1 row-cols-md-3 g-4" style={{margin:"10px"}}>
@@ -53,7 +42,8 @@ class ProductView extends Component {
                         <div className="card-body">
                             <h5 className="card-title">{d.Name}</h5>
                             <p className="card-text">{d.Description}</p>
-                            <img src={imageMap[d.ProductID]} alt="Product" style={{width:"100%"}} />
+                            <img src={imgPath+d.Pictures} alt="Product" style={{width:"100%"}} />
+                            {console.log(imgPath+d.Pictures)}
                         </div>
                         <button 
                         onClick={() => this.QsetViewInParent({page:"oneProduct", productID:d.ProductID})}

@@ -1,13 +1,29 @@
 const express = require("express");
 const products = express.Router();
 const db=require("../db/conn.js")
+const multer = require("multer")
+
+
+//multer
+// Define the storage location and file naming scheme
+const storage = multer.diskStorage({
+  destination: function (req, file, callBack) {
+   callBack(null, '/home/studenti/famnit/89221002/Desktop/SIS3/backend/Images/'); 
+  },
+  filename: function (req, file, callBack) {
+   callBack(null, Date.now() + '-' + file.originalname); 
+  }
+});
+
+const upload = multer({ storage: storage });
+
 
 
 //sending json object to browser /products
 products.get("/", async(req, res, next) => {
  try {
-      let queryResult = await db.allProducts()//await bcuz of the promise
-      res.json(queryResult)
+   let queryResult = await db.allProducts()//await bcuz of the promise
+   res.json(queryResult)
  } catch (err) {
     console.error(err)
     res.sendStatus(500)
@@ -44,36 +60,43 @@ products.get("/search/:name", async(req, res, next) => {
 })
 
 //adding a new product
-products.post("/", async(req, res, next) => {
-   console.log(req.body)
-   let name = req.body.Name;
-   let price= req.body.Price
-   let weight= req.body.Weight
-   let height = req.body.Height
-   let width= req.body.Width
-   let depth = req.body.Depth
-   let stock = req.body.StockLevel
-   let desc= req.body.Description
-   let isCompleteProduct = name && price && weight && height && width && depth && desc && stock;
-   if (isCompleteProduct) {
+products.post("/", upload.single('image'), async (req, res, next) => {
+   console.log(req.body);
+   const name = req.body.Name;
+   const price = req.body.Price;
+   const weight = req.body.Weight;
+   const height = req.body.Height;
+   const width = req.body.Width;
+   const depth = req.body.Depth;
+   const stock = req.body.StockLevel;
+   const desc = req.body.Description;
+   const image = req.file; // Change this to req.file instead of req.body.image
+   console.log(image);
+   const imagename = image.originalname;
 
-         try{
-            let  queryResult = await db.addProduct(name, price, weight, height, width, depth, desc, stock)
-            if(queryResult.affectedRows){
-               console.log("product added")
-            }
-         }
-         catch (err) {
-            console.error(err)
-            res.sendStatus(500)
-         }
-   }
-   else {
-      console.log("missing fields")
-      res.sendStatus(400)
-   }
-   res.end()
+   if (image) {
+       const isCompleteProduct = name && price && weight && height && width && depth && desc && stock && imagename;
 
-})
+       if (isCompleteProduct) {
+           try {
+               const queryResult = await db.addProduct(name, price, weight, height, width, depth, desc, stock, imagename);
+
+               if (queryResult.affectedRows) {
+                   console.log("Product added");
+                   res.sendStatus(200);
+               }
+           } catch (err) {
+               console.error(err);
+               res.sendStatus(500);
+           }
+       } else {
+           console.log("Missing fields");
+           res.sendStatus(400);
+       }
+   } else {
+       res.status(400).json({ error: 'Missing image file' });
+   }
+});
+
 
 module.exports = products;

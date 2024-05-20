@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 class AboutView extends Component {
@@ -19,8 +20,11 @@ class AboutView extends Component {
     .then((response) => {
       console.log(response);
       this.setState({ email: "", message: ""});
+      toast.success("Message sent successfully");
+      
     }).catch(error => {
       console.error("Error:", error.message);
+      toast.error("Message not sent");
     });   
   };
 
@@ -71,7 +75,7 @@ class AboutView extends Component {
                   We will never share your email with anyone else.
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary" onClick={()=>this.handleSubmit()}>
+              <button type="submit" className="btn btn-primary">
                 Submit
               </button>
             </form>
