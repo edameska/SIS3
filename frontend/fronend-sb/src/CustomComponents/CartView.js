@@ -3,12 +3,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-// Import product images
-import WhiteDolomite from "../Images/WhiteDolomite.jpg";
-import SemiWhiteCalcite from "../Images/SemiWhiteCalcite.jpg";
-import Tombolone from "../Images/Tombolone.jpg";
-import SemiWhiteCalcite2 from "../Images/SemiWhite2.jpg";
-import Tombolone2 from "../Images/Tombolon2.jpg";
+import { apiURL } from '../essentials/configuration';
+
 
 class CartView extends Component {
   constructor(props) {
@@ -65,13 +61,7 @@ class CartView extends Component {
   render() {
     const { products, loading } = this.state;
     let total = 0; // Initialize total outside the loop
-    const imageMap = {
-      1: WhiteDolomite,
-      2: SemiWhiteCalcite,
-      3: Tombolone,
-      4: SemiWhiteCalcite2,
-      5: Tombolone2,
-    };
+
   
     return (
       <div>
@@ -90,12 +80,8 @@ class CartView extends Component {
                       <div className="d-flex justify-content-between">
                         <div className="d-flex flex-row align-items-center" style={{ marginRight: "10%"}}>
                           <div className="col-3">
-                            <img
-                              src={imageMap[product.ProductID]}
-                              className="img-fluid rounded-3"
-                              alt="Shopping item"
-                              style={{ width: "105px" }}
-                            />
+                          <img src={`${apiURL}/images/${product.Pictures}`} alt="Product" style={{ width: "80%" }} />
+
                           </div>
                           <div className="ms-3 col-10 col-md-10 col-lg-10 col-xl-10">
                             <h5 >{product.Name}</h5>
@@ -157,7 +143,6 @@ class CartView extends Component {
                   </div>
                 </div>
                 <div className="col-lg-5">
-                  {/* Card details */}
                 </div>
               </div>
             );

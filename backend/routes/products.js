@@ -34,7 +34,6 @@ products.get("/", async(req, res, next) => {
 products.get("/:id", async(req, res, next) => {
    console.log(req.params)
    try{
-      console.log(req)
       let queryResult= await db.oneProduct(req.params.id)
       res.json(queryResult)
    }
@@ -49,7 +48,6 @@ products.get("/:id", async(req, res, next) => {
 products.get("/search/:name", async(req, res, next) => {
    console.log(req.params)
    try{
-      console.log(req)
       let queryResult= await db.search(req.params.name)
       res.json(queryResult)
    }
@@ -70,9 +68,9 @@ products.post("/", upload.single('image'), async (req, res, next) => {
    const depth = req.body.Depth;
    const stock = req.body.StockLevel;
    const desc = req.body.Description;
-   const image = req.file; // Change this to req.file instead of req.body.image
+   const image = req.file; 
    console.log(image);
-   const imagename = image.originalname;
+   const imagename = image.filename;
 
    if (image) {
        const isCompleteProduct = name && price && weight && height && width && depth && desc && stock && imagename;
@@ -97,6 +95,41 @@ products.post("/", upload.single('image'), async (req, res, next) => {
        res.status(400).json({ error: 'Missing image file' });
    }
 });
+//edit product
+products.put("/:id", upload.single('image'), async (req, res, next) => {
+   console.log(req.body);
+   console.log(req.file);
+   
+   const id = req.params.id;
+   const name = req.body.Name;
+   const price = req.body.Price;
+   const weight = req.body.Weight;
+   const height = req.body.Height;
+   const width = req.body.Width;
+   const depth = req.body.Depth;
+   const stock = req.body.StockLevel;
+   const desc = req.body.Description;
+   const image = req.file ? req.file.filename : null;
 
+   if (name && price && weight && height && width && depth && desc && stock && image) {
+       try {
+           const queryResult = await db.editProduct(id, name, price, weight, height, width, depth, desc, stock, image);
+
+           if (queryResult.affectedRows) {
+               console.log("Product edited");
+               res.sendStatus(200);
+           } else {
+               console.log("No rows affected");
+               res.sendStatus(404); // Not found if no rows are affected
+           }
+       } catch (err) {
+           console.error(err);
+           res.sendStatus(500);
+       }
+   } else {
+       console.log("Missing fields");
+       res.sendStatus(400);
+   }
+});
 
 module.exports = products;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import {imgPath } from '../essentials/configuration';
+import { apiURL } from '../essentials/configuration';
 
 
 
@@ -18,7 +18,7 @@ class ProductView extends Component {
     this.props.QsetViewInParent(obj);
   };
   componentDidMount() {
-    axios.get("http://88.200.63.148:8121/products").then((res) => {
+    axios.get(`${apiURL}/products`).then((res) => {
       this.setState({ products: res.data });
       console.log(res.data);
     }).catch((err) => {
@@ -42,8 +42,7 @@ class ProductView extends Component {
                         <div className="card-body">
                             <h5 className="card-title">{d.Name}</h5>
                             <p className="card-text">{d.Description}</p>
-                            <img src={imgPath+d.Pictures} alt="Product" style={{width:"100%"}} />
-                            {console.log(imgPath+d.Pictures)}
+                            <img src={`${apiURL}/images/${d.Pictures}`} alt="Product" style={{ width: "100%" }} />
                         </div>
                         <button 
                         onClick={() => this.QsetViewInParent({page:"oneProduct", productID:d.ProductID})}

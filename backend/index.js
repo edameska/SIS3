@@ -3,6 +3,8 @@ const app = express()
 const dotenv = require('dotenv')
 const cors = require('cors')
 const cookieParser=require('cookie-parser')
+const path = require('path')
+
 dotenv.config()
 
 const port=process.env.PORT||8121;
@@ -23,6 +25,8 @@ app.use(cors({
     credentials: true // enable set cookie
 }))
 
+
+app.use('/images', express.static(path.join(__dirname, 'Images')));
 
 
 app.get("/",(req,res)=>{

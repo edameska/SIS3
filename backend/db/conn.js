@@ -337,6 +337,18 @@ dataPool.addProduct= (name,price,weight,height,width,depth,desc,stocklevel,image
     })
 
 }
+//edit product
+dataPool.editProduct = (id, name, price, weight, height, width, depth, desc, stocklevel, image) => {
+    return new Promise((resolve, reject)=>{
+        conn.query(`UPDATE Product SET Name = ?, Price = ?, Weight = ?, Height = ?, Width = ?, Depth = ?, Description = ?, StockLevel = ?, Pictures = ? WHERE ProductID = ?`, [name, price, weight, height, width, depth, desc, stocklevel, image, id], (err, results)=>{
+            if(err){
+                return reject(err)
+            }
+            return resolve(results)
+        });
+    });
+
+}
 
 
 //search products

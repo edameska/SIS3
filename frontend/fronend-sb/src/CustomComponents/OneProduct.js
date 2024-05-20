@@ -2,12 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { apiURL } from '../essentials/configuration';
 
-import WhiteDolomite from "../Images/WhiteDolomite.jpg";
-import SemiWhiteCalcite from "../Images/SemiWhiteCalcite.jpg";
-import Tombolone from "../Images/Tombolone.jpg";
-import SemiWhiteCalcite2 from "../Images/SemiWhite2.jpg";
-import Tombolone2 from "../Images/Tombolon2.jpg";
+
 
 
 class OneProductView extends Component {
@@ -135,13 +132,7 @@ class OneProductView extends Component {
 
   render() {
     const { product, loading } = this.state;
-    const imageMap = {
-      1: WhiteDolomite,
-      2: SemiWhiteCalcite,
-      3: Tombolone,
-      4: SemiWhiteCalcite2,
-      5: Tombolone2
-    };
+  
     return (
       <div className="product-container"> 
         {loading ? (
@@ -151,11 +142,8 @@ class OneProductView extends Component {
             <h2 className="product-name">{product[0].Name}</h2> 
             <hr />
             <div className="product-image-container">
-              <img
-                src={imageMap[product[0].ProductID]}
-                alt={product[0].Name}
-                className="product-image"
-              />
+            <img src={`${apiURL}/images/${product[0].Pictures}`} alt="Product" style={{ width: "50%" }} />
+
             <div className="heart-cart-container">
                 
              <p className="product-description">{product[0].Description}</p>
@@ -226,6 +214,7 @@ class OneProductView extends Component {
 
             </div>
             </div>: null}
+           
           </div>
         </div>
 
@@ -242,6 +231,10 @@ class OneProductView extends Component {
               <button onClick={() => this.QSetViewInParent({ page: "products" })} className="btn btn-primary ">
                 Return to Products
               </button>
+              {this.props.userStatus.logged && this.props.userStatus.user.role==="Manager" ? 
+              <button className="btn btn-primary" onClick={() => this.QSetViewInParent({ page: "editProduct", data: this.props.data })} style={{background: 'maroon',borderRadius: "10px",color:"white", borderColor:"white", padding: "5px 10px", fontSize: "1em",}} >
+                Edit Product
+              </button>: null}
             </div>
           </div>
         ) : (
