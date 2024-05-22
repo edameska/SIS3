@@ -96,7 +96,7 @@ products.post("/", upload.single('image'), async (req, res, next) => {
    }
 });
 //edit product
-products.put("/:id", upload.single('image'), async (req, res, next) => {
+products.put("/:id", async (req, res, next) => {
    console.log(req.body);
    console.log(req.file);
    
@@ -109,11 +109,11 @@ products.put("/:id", upload.single('image'), async (req, res, next) => {
    const depth = req.body.Depth;
    const stock = req.body.StockLevel;
    const desc = req.body.Description;
-   const image = req.file ? req.file.filename : null;
 
-   if (name && price && weight && height && width && depth && desc && stock && image) {
+
+   if (name && price && weight && height && width && depth && desc && stock) {
        try {
-           const queryResult = await db.editProduct(id, name, price, weight, height, width, depth, desc, stock, image);
+           const queryResult = await db.editProduct(id, name, price, weight, height, width, depth, desc, stock);
 
            if (queryResult.affectedRows) {
                console.log("Product edited");
@@ -129,6 +129,52 @@ products.put("/:id", upload.single('image'), async (req, res, next) => {
    } else {
        console.log("Missing fields");
        res.sendStatus(400);
+   }
+});
+//edit image
+products.put("/edit-image/:id", upload.single('image'), async (req, res, next) => {
+    const id = req.params.id;
+    const image = req.file; // Access the uploaded file using req.file
+
+    if (image) {
+         const imagename = image.filename;
+
+         try {
+              const queryResult = await db.editProductImage(id, imagename);
+    
+              if (queryResult.affectedRows) {
+                console.log("Product image edited");
+                res.sendStatus(200);
+              } else {
+                console.log("No rows affected");
+                res.sendStatus(404); // Not found if no rows are affected
+              }
+         } catch (err) {
+              console.error(err);
+              res.sendStatus(500);
+         }
+    } else {
+         console.log("Missing fields");
+         res.sendStatus(400);
+    }
+});
+//delete product
+products.delete("/:id", async (req, res, next) => {
+   const id = req.params.id;
+
+   try {
+       const queryResult = await db.deleteProduct(id);
+
+       if (queryResult.affectedRows) {
+           console.log("Product deleted");
+           res.sendStatus(200);
+       } else {
+           console.log("No rows affected");
+           res.sendStatus(404); // Not found if no rows are affected
+       }
+   } catch (err) {
+       console.error(err);
+       res.sendStatus(500);
    }
 });
 

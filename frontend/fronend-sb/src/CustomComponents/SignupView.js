@@ -1,6 +1,7 @@
 import {Component} from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 class SignupView extends Component{
   constructor(props){
@@ -32,14 +33,14 @@ QPostSignup= ()=>{
   let country = this.state.user.country
 
   if (!username || !email || !password || !name || !surname || !country) {
-    alert("Please fill in all fields.");
+    toast.warn("Please fill in all fields.");
     return;
   }
 
   // Check if the email format is valid
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    alert("Please enter a valid email address.");
+    toast.warn("Please enter a valid email address.");
     return;
   }
 
@@ -56,6 +57,7 @@ QPostSignup= ()=>{
 
   }).catch((error)=>{
       console.log(error.message)
+      toast.error("Error occured while sending data to server. Please try again.")
   })
 }
     render(){

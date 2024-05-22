@@ -338,9 +338,9 @@ dataPool.addProduct= (name,price,weight,height,width,depth,desc,stocklevel,image
 
 }
 //edit product
-dataPool.editProduct = (id, name, price, weight, height, width, depth, desc, stocklevel, image) => {
+dataPool.editProduct = (id, name, price, weight, height, width, depth, desc, stocklevel) => {
     return new Promise((resolve, reject)=>{
-        conn.query(`UPDATE Product SET Name = ?, Price = ?, Weight = ?, Height = ?, Width = ?, Depth = ?, Description = ?, StockLevel = ?, Pictures = ? WHERE ProductID = ?`, [name, price, weight, height, width, depth, desc, stocklevel, image, id], (err, results)=>{
+        conn.query(`UPDATE Product SET Name = ?, Price = ?, Weight = ?, Height = ?, Width = ?, Depth = ?, Description = ?, StockLevel = ? WHERE ProductID = ?`, [name, price, weight, height, width, depth, desc, stocklevel, id], (err, results)=>{
             if(err){
                 return reject(err)
             }
@@ -350,6 +350,27 @@ dataPool.editProduct = (id, name, price, weight, height, width, depth, desc, sto
 
 }
 
+dataPool.editProductImage = (id, image) => {
+    return new Promise((resolve, reject)=>{
+        conn.query(`UPDATE Product SET Pictures = ? WHERE ProductID = ?`, [image, id], (err, results)=>{
+            if(err){
+                return reject(err)
+            }
+            return resolve(results)
+        });
+    });
+}
+//delete product
+dataPool.deleteProduct = (id) => {
+    return new Promise((resolve, reject)=>{
+        conn.query(`DELETE FROM Product WHERE ProductID = ?`, id, (err, results)=>{
+            if(err){
+                return reject(err)
+            }
+            return resolve(results)
+        });
+    });
+}
 
 //search products
 dataPool.search=(search) =>{

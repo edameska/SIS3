@@ -122,7 +122,7 @@ users.post("/register", async (req, res) => {
   res.end();
 });
 
-users.post("/edit-profile", async (req, res) => {
+users.put("/edit-profile", async (req, res) => {
   let username = req.body.username;
   let userId = req.body.userId;
   let email = req.body.email;

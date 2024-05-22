@@ -1,6 +1,8 @@
 import {Component} from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 //change it so we use sessioning
 //handle emty field for extra points
@@ -34,15 +36,27 @@ class LoginView extends Component{
         }, { withCredentials: true })
         .then((res) => {
             if (res.data.logged) {
+                toast.success("✅ Logged in successfully",{
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
                 console.log("User logged in successfully");
                 console.log(res.data);
                 this.QSendUserToParent(res.data);
+
             } else {
                 console.log("User not registered or incorrect credentials");
-            }
-        })
+                toast.error("User not registered or incorrect credentials!");
+    }})
         .catch((error) => {
             console.log("Error logging in: " + error.message);
+            toast.error("Error logging in: " + error.message)
         });
     }
     

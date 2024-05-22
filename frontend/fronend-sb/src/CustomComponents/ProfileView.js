@@ -28,7 +28,7 @@ class Profile extends Component {
   }
 
   QEdit = () => {
-    axios.post("http://88.200.63.148:8121/users/edit-profile", {
+    axios.put("http://88.200.63.148:8121/users/edit-profile", {
       userId: this.props.user.userId,
       username: this.state.editUser.user,
       email: this.state.editUser.email,
@@ -57,7 +57,7 @@ class Profile extends Component {
           <h4 className="form-label">Details</h4>
           <ul className="list-group">
           <li className="list-group-item">
-              Name:
+              Username:
               <input
                 name="user"
                 onChange={this.QGetText}

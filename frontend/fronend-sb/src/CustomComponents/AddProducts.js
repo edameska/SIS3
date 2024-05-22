@@ -31,9 +31,8 @@ class AddProducts extends Component{
 
 
   addProduct = (product) => {
-    console.log(product); // Log the product
+    console.log(product); 
   
-    // Destructure the product from state
     const { image, productName, pricePerTon, weight, height, width, depth, stockLevel, description } = this.state.product;
   
     const formData = new FormData();

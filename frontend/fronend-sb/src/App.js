@@ -14,6 +14,7 @@ import ProfileView from "./CustomComponents/ProfileView";
 import WishlistView from "./CustomComponents/WishListView";
 import CartView from "./CustomComponents/CartView";
 import SearchView from "./CustomComponents/SearchView";
+import EditProductView from "./CustomComponents/EditProductView";
 
 //app exports what its rendering
 class App extends Component {
@@ -57,7 +58,7 @@ class App extends Component {
         case "signup":
           return <SignupView QUserFromChild={this.QHandleUserLog}/>
         case "oneProduct":
-          return <OneProductView QViewFromChild={this.QSetView} data={this.state.productID} userStatus={this.state.userStatus}/>;  
+          return <OneProductView QViewFromChild={this.QSetView} data={this.state.productID} userStatus={this.state.userStatus}  QsetViewInParent={this.QSetView}/>;  
         case "profile":
           return <ProfileView key={this.state.userStatus.user.id} user={this.state.userStatus.user}/>  
         case "wishlist":
@@ -66,6 +67,8 @@ class App extends Component {
           return <CartView QsetViewInParent={this.QSetView} userStatus={this.state.userStatus}/> 
         case "search":
           return <SearchView products={this.state.products} QsetViewInParent={this.QSetView} /> 
+          case "editproduct":
+            return <EditProductView QViewFromChild={this.QSetView} data={this.state.productID} userStatus={this.state.userStatus}/>
         default:
           return <HomeView/>
       }

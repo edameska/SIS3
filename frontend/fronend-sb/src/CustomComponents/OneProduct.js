@@ -112,6 +112,27 @@ class OneProductView extends Component {
       toast.error("Error adding product to cart.");
     });
   }
+
+  deleteProduct = () => {
+    axios.delete(`http://88.200.63.148:8121/products/${this.props.data}`)
+    .then(() => {
+      console.log("Product deleted");
+      toast.success("✅ Product deleted successfully!",{
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+      this.QSetViewInParent({ page: "products" });
+    }).catch(error => {
+      console.error("Error:", error.message);
+      toast.error("Error deleting product.");
+    });
+  }
   
 
   componentDidMount() {
@@ -191,7 +212,7 @@ class OneProductView extends Component {
                   </div>
                 </div>
                 <div className="heart-cart">
-                  <button className="addToCart"onClick={() => this.AddToCart()} style={{background: '#086a82',borderRadius: "10px",color:"white", borderColor:"white", padding: "5px 10px", fontSize: "1em",}} >
+                  <button className="addToCart"onClick={() => this.AddToCart()}  >
                   Add to Cart 
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" className="bi bi-truck" viewBox="0 0 16 16" style={{ marginLeft: "15px" }}>
                     <path d="M11.5 4a.5.5 0 0 1 .5.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-4 0 1 1 0 0 1-1-1v-1h11V4.5a.5.5 0 0 1 .5-.5M3 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2m1.732 0h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4a2 2 0 0 1 1.732 1"/>
@@ -232,9 +253,20 @@ class OneProductView extends Component {
                 Return to Products
               </button>
               {this.props.userStatus.logged && this.props.userStatus.user.role==="Manager" ? 
-              <button className="btn btn-primary" onClick={() => this.QSetViewInParent({ page: "editProduct", data: this.props.data })} style={{background: 'maroon',borderRadius: "10px",color:"white", borderColor:"white", padding: "5px 10px", fontSize: "1em",}} >
+              <div>
+                <div>
+              <button className="btn btn-primary editBtn" onClick={() => this.QSetViewInParent({ page: "editproduct", productID:product[0].ProductID})}  >
                 Edit Product
-              </button>: null}
+              </button>
+              </div>
+              <div>
+              <button className="btn btn-primary deleteBtn" onClick={() => { 
+                  this.deleteProduct(product[0].ProductID) 
+              }}>
+                Delete Product
+                </button>
+                </div>
+              </div>: null}
             </div>
           </div>
         ) : (

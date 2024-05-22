@@ -19,7 +19,7 @@ app.use(cookieParser("secretpassword"))//to parse cookies
 app.use(express.json())//to send between frontend and backend
 app.use(express.urlencoded({extended : true}));
 app.use(cors({
-    origin: ["http://88.200.63.148:8122"],
+    origin: ['http://88.200.63.148:8123'],
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
     allowedHeaders: ['Content-Type', 'Authorization'],//to send cookies
     credentials: true // enable set cookie
