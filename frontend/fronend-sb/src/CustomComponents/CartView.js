@@ -18,7 +18,7 @@ class CartView extends Component {
   componentDidMount() {
     const userID = this.props.userStatus.user.userId || null;
     axios
-      .get(`http://88.200.63.148:8121/cart/all/${userID}`)
+      .get(`/cart/all/${userID}`)
       .then((res) => {
         this.setState({ products: res.data, loading: false });
       })
@@ -30,7 +30,7 @@ class CartView extends Component {
   ChangeQuantity(productID, quantity) {
     const userID = this.props.userStatus.user.userId || null;
     axios
-      .put(`http://88.200.63.148:8121/cart/`, {userID, productID, quantity})
+      .put(`/cart/`, {userID, productID, quantity})
       .then((res) => {
         this.setState({ products: res.data});
         console.log("Quantity changed");
@@ -43,7 +43,7 @@ class CartView extends Component {
     const userID = this.props.userStatus.user.userId || null;
     console.log(userID, productID);
     axios
-      .delete(`http://88.200.63.148:8121/cart/`, {
+      .delete(`/cart/`, {
         params: {
           userID: userID,
           productID: productID,
@@ -88,14 +88,14 @@ class CartView extends Component {
                             <p className="col-9 small mb-0">{product.Description}</p>
                           </div>
                         </div>
-                        <div className="d-flex flex-row align-items-center" >
-                          <div className="col-7 col-md-4 col-lg-4 col-xl-4 d-flex"  >
+                        <div className="d-flex flex-column align-items-start" style={{marginRight:"10%"}}>
+                          <div className="col-7 col-md-7 col-lg-7 col-xl-7 d-flex">
                             <button
                               className="btn px-2"
                               onClick={() => {
-                               this.ChangeQuantity(product.ProductID, product.quantity - 1);
+                                this.ChangeQuantity(product.ProductID, product.quantity - 1);
                               }}
-                              style={{color:"white", padding:" 2% 4%", fontSize:" 1em"}}
+                              style={{ color: "white" }}
                             >
                               -
                             </button>
@@ -107,28 +107,31 @@ class CartView extends Component {
                               value={product.quantity}
                               type="number"
                               className="form-control form-control-sm col-4"
-                              onChange={(e)=>{
+                              onChange={(e) => {
                                 this.ChangeQuantity(product.ProductID, e.target.value);
                               }}
-                              style={{padding:" 100", fontSize:" 1em"}}
+                              style={{ padding: "100", fontSize: "1em" }}
                             />
 
                             <button
                               className="btn px-2"
                               onClick={() => {
-                                this.ChangeQuantity(product.ProductID, product.quantity + 1)
+                                this.ChangeQuantity(product.ProductID, product.quantity + 1);
                               }}
-                              style ={{color:"white"}}
+                              style={{ color: "white" }}
                             >
                               +
                             </button>
                           </div>
+
+                          <div >
+                            <h5 className="mb-0">Product total:<br/>{productTotal}€</h5>
                           </div>
+                        </div>
+
 
                           <div  className="d-flex flex-row align-items-center" >
-                            <div style={{ width: "70%", margin:"10%", marginLeft:"15%"}}>
-                            <h5 className="mb-0">Product total:{<br></br>}{productTotal}€</h5>
-                           </div>
+                          
                              <div  className="d-flex flex-row align-items-center" style={{ marginLeft:"auto",marginRight:"10" ,height:"100%",  borderRadius: "25px"}}> 
                                <button  className="btn px-2" style={{ border: 'none', background: 'lightBlue', cursor: 'pointer' , height:"100%"}} onClick={()=>{this.RemoveProduct(product.ProductID)}}>
                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="maroon" className="bi bi-trash" viewBox="0 0 16 16">

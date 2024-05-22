@@ -32,7 +32,7 @@ class OneProductView extends Component {
     console.log("userID:", userID);
     console.log("productID:", productID);
   
-    axios.post("http://88.200.63.148:8121/wishlist", { userID, productID })
+    axios.post("/wishlist", { userID, productID })
       .then(() => {
         console.log("Product added to wishlist");
         this.setState({ isInWishlist: true });
@@ -49,7 +49,7 @@ class OneProductView extends Component {
       const userID = this.props.userStatus.user.userId || null;
       const productID = product[0].ProductID;
 
-      axios.get("http://88.200.63.148:8121/wishlist/check", {
+      axios.get("/wishlist/check", {
         params: {
           userID: userID,
           productID: productID
@@ -68,7 +68,7 @@ class OneProductView extends Component {
   }
 
   RemoveFromWishlist = () => {
-    axios.delete("http://88.200.63.148:8121/wishlist", {
+    axios.delete("/wishlist", {
       params: {
         userID: this.props.userStatus.user.userId,
         productID: this.state.product[0].ProductID
@@ -93,7 +93,7 @@ class OneProductView extends Component {
     console.log("userID:", userID);
     console.log("productID:", productID);
   
-    axios.post("http://88.200.63.148:8121/cart", { userID, productID, quantity})
+    axios.post("/cart", { userID, productID, quantity})
     .then(() => {
       console.log("Product added to cart");
       toast.success("✅ Product added to cart successfully!",{
@@ -114,7 +114,7 @@ class OneProductView extends Component {
   }
 
   deleteProduct = () => {
-    axios.delete(`http://88.200.63.148:8121/products/${this.props.data}`)
+    axios.delete(`/products/${this.props.data}`)
     .then(() => {
       console.log("Product deleted");
       toast.success("✅ Product deleted successfully!",{
@@ -136,7 +136,7 @@ class OneProductView extends Component {
   
 
   componentDidMount() {
-    axios.get(`http://88.200.63.148:8121/products/${this.props.data}`)
+    axios.get(`/products/${this.props.data}`)
       .then((response) => {
         this.setState({ product: response.data }, () => {
           this.isInWishlist(); // Call isInWishlist after product data is set

@@ -18,7 +18,7 @@ class ProductView extends Component {
     this.props.QsetViewInParent(obj);
   };
   componentDidMount() {
-    axios.get(`${apiURL}/products`).then((res) => {
+    axios.get(`/products`).then((res) => {
       this.setState({ products: res.data });
       console.log(res.data);
     }).catch((err) => {

@@ -44,7 +44,7 @@ QPostSignup= ()=>{
     return;
   }
 
-  axios.post("http://88.200.63.148:8121/users/register",{
+  axios.post("/users/register",{
       username:this.state.user.username,
       email:this.state.user.email,
       password:this.state.user.password,

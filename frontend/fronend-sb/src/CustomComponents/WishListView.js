@@ -25,7 +25,7 @@ class WishListView extends Component {
       return; // Exit early if userID is undefined
     }
   
-    axios.get(`http://88.200.63.148:8121/wishlist/all/${userID}`)
+    axios.get(`/wishlist/all/${userID}`)
       .then((res) => {
         this.setState({ products: res.data });
       })

@@ -246,7 +246,7 @@ class App extends Component {
           </nav>
         </div>
 
-        <div id="viewer" className="row container" style={{marginLeft:"10%"}}>
+        <div id="viewer" className="row container" style={{margin:"auto"}} >
         <ToastContainer 
         position="top-right"
         autoClose={5000}

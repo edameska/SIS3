@@ -51,7 +51,7 @@ class EditProductView extends Component {
   editProduct = () => {
     const {  Name, Price, Weight, Height, Width, Depth, StockLevel, Description } = this.state.product[0];
  
-    axios.put(`${apiURL}/products/${this.props.data}`, {
+    axios.put(`/products/${this.props.data}`, {
       Name,
       Price,
       Weight,
@@ -80,7 +80,7 @@ class EditProductView extends Component {
     for (var pair of formData.entries()) {
       console.log(pair[0]+ ', ' + pair[1]); 
   }    
-  axios.put(`${apiURL}/products/edit-image/${this.props.data}`, formData)
+  axios.put(`/products/edit-image/${this.props.data}`, formData)
       .then(res => {
         console.log("Sent to server: " + res);
         toast.success("Image updated successfully!");
@@ -92,7 +92,7 @@ class EditProductView extends Component {
 
   }
   componentDidMount() {
-    axios.get(`http://88.200.63.148:8121/products/${this.props.data}`)
+    axios.get(`/products/${this.props.data}`)
       .then((response) => {
         this.setState({ product: response.data }, () => {
           console.log("Product data:", this.state.product);

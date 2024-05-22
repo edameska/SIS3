@@ -15,6 +15,7 @@ const wishlist = require('./routes/wishlist')
 const cart = require('./routes/cart')
 const contact= require('./routes/contact')
 
+app.use(express.static(path.join(__dirname, 'build')))//to serve static files
 app.use(cookieParser("secretpassword"))//to parse cookies
 app.use(express.json())//to send between frontend and backend
 app.use(express.urlencoded({extended : true}));
@@ -30,7 +31,7 @@ app.use('/images', express.static(path.join(__dirname, 'Images')));
 
 
 app.get("/",(req,res)=>{
-    res.send("This text must be changed to a static file")
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))//to send index.html file
 })
 
 app.use("/products", products)

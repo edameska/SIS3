@@ -46,7 +46,7 @@ class AddProducts extends Component{
     formData.append('StockLevel', stockLevel);
     formData.append('Description', description);
     
-    axios.post("http://88.200.63.148:8121/products", formData)
+    axios.post("/products", formData)
       .then(res => {
         console.log("Sent to server" + res);
       })

@@ -28,7 +28,7 @@ class Profile extends Component {
   }
 
   QEdit = () => {
-    axios.put("http://88.200.63.148:8121/users/edit-profile", {
+    axios.put("/users/edit-profile", {
       userId: this.props.user.userId,
       username: this.state.editUser.user,
       email: this.state.editUser.email,

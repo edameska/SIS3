@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.987ef315.css",
+    "main.js": "/static/js/main.c8a2184e.js",
+    "static/media/MarbleLake3.png": "/static/media/MarbleLake3.04ffb520bd612289e269.png",
+    "static/media/MarbleLake5.jpg": "/static/media/MarbleLake5.7a4194285bf2d7cfb280.jpg",
+    "static/media/MarbleLake4.jpg": "/static/media/MarbleLake4.bc8d6ce9c01b58ccf5b9.jpg",
+    "static/media/MarbleLake3.jpg": "/static/media/MarbleLake3.20095de3721517ab3c46.jpg",
+    "static/media/MarbleLake2.jpg": "/static/media/MarbleLake2.0a2adf5bcc7ba7968791.jpg",
+    "index.html": "/index.html",
+    "main.987ef315.css.map": "/static/css/main.987ef315.css.map",
+    "main.c8a2184e.js.map": "/static/js/main.c8a2184e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.987ef315.css",
+    "static/js/main.c8a2184e.js"
+  ]
+}

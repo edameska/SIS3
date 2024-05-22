@@ -30,7 +30,7 @@ class LoginView extends Component{
 
     QPostLogin = () => {
         let user = this.state.user;
-        axios.post("http://88.200.63.148:8121/users/login", {
+        axios.post("/users/login", {
             username: user.username,
             password: user.password
         }, { withCredentials: true })

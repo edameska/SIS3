@@ -16,7 +16,7 @@ class AboutView extends Component {
     const email = this.state.email;
     const message = this.state.message;
     console.log(email+" "+message);
-    axios.post("http://88.200.63.148:8121/contact",{email, message})
+    axios.post("/contact",{email, message})
     .then((response) => {
       console.log(response);
       this.setState({ email: "", message: ""});

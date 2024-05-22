@@ -1,0 +1,231 @@
+body {
+  background-color: #fffafa;
+}
+
+.navbar {
+  background-color: #0d98ba;
+  width: 100%;
+}
+
+.nav-link,
+.navbar-brand,
+.navbar-toggler,
+.navbar-toggler:hover,
+.nav-link:hover,
+.navbar-brand:hover {
+  color: #ffffff;
+}
+
+.btn {
+  background-color: #0d98ba;
+  border-color: #31585e;
+}
+
+.btn:hover {
+  background-color: #31585e;
+  border-color: #0d98ba;
+}
+
+.search {
+  color: #fffafa;
+  background-color: #31585e;
+}
+
+.form-inline {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.form-inline .form-control {
+  margin-right: 5px;
+}
+
+.form-control {
+  size: auto;
+  height: 80%;
+  align-items: center;
+}
+
+.title {
+  margin-top: 3%;
+  margin-bottom: 3%;
+  color: #0d98ba;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainCaruselDiv {
+  height: 65%;
+  width: 75%;
+  justify-content: center;
+  margin-left: 12%;
+}
+
+.togglebar {
+  justify-self: auto;
+  justify-content: center;
+  display: flex;
+}
+
+.product-container {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px auto;
+  max-width: 800px;
+}
+
+.product-name {
+  margin-bottom: 1.5vh;
+  color: #333;
+  font-size: 2.5vw;
+}
+
+.product-image-container {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.product-image {
+  width: 40%;
+  height: 40%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-description {
+  margin-bottom: 15px;
+  color: #666;
+  padding: 5% 10%;
+}
+
+.product-specs {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.product-specs p {
+  margin-right: 15px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.return-button {
+  background-color: #0d98ba;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.return-button:hover {
+  background-color: #31585e;
+}
+
+.loading-message,
+.no-product-message {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.heart-cart-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.heart-cart {
+  display: flex;
+  margin-left: 10%;
+}
+
+.addToCart:hover {
+  background-color: #0a7a93c4;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.addToCart {
+  background: #086a82;
+  border-radius: 10px;
+  color: white;
+  border-color: white;
+  padding: 5px 10px;
+  font-size: 1em;
+}
+
+.editBtn:hover,
+.deleteBtn:hover {
+  background-color: #ba660dc0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.editBtn , .deleteBtn {
+  width: 100%;
+  background: #ba660d;
+  border-radius: 10px;
+  color: white;
+  border-color: white;
+  padding: 5px 10px;
+  font-size: 1em;
+}
+.deleteBtn{
+  background: maroon;
+}
+.deleteBtn:hover{
+  background-color: rgba(128, 0, 0, 0.793);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+/* Profile picture styles */
+.pic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: transparent;
+  transition: all .3s ease;
+  position: relative;
+}
+
+.pic input {
+  display: none;
+}
+
+.pic img {
+  position: absolute;
+  object-fit: cover;
+  box-shadow: 0 0 10px 0 rgba(255, 255, 255, .35);
+  z-index: 0;
+}
+
+.pic .-label {
+  cursor: pointer;
+  height: 165px;
+  width: 165px;
+}
+
+.pic:hover .-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, .8);
+  z-index: 10000;
+  color: rgb(250, 250, 250);
+  transition: background-color .2s ease-in-out;
+  border-radius: 100px;
+  margin-bottom: 0;
+}
+
+.pic span {
+  display: inline-flex;
+  padding: .2em;
+  height: 2em;
+}
