@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types'; // Import PropTypes
+import PropTypes from 'prop-types';
 import axios from "axios";
 import { toast } from "react-toastify";
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -37,16 +38,14 @@ class Profile extends Component {
       country: this.state.editUser.country
     })
     .then((response) => {
-      console.log("Profile updated successfully"+response.data);
+      console.log("Profile updated successfully: " + response.data);
       toast.success("Profile updated successfully");
-      
     })
     .catch((error) => {
       console.log("Error updating profile: " + error.message);
-      toast.error("Error updating profile");
-      location.reload();
+      toast.error("Error updating profile: " + error.message);
+      // location.reload(); // Commenting out the reload to prevent potential issues
     });
-    
   }
 
   render() {
@@ -56,7 +55,7 @@ class Profile extends Component {
           <h3 style={{ marginTop: "10px" }}>Welcome {this.props.user.user}</h3>
           <h4 className="form-label">Details</h4>
           <ul className="list-group">
-          <li className="list-group-item">
+            <li className="list-group-item">
               Username:
               <input
                 name="user"
