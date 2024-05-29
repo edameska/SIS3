@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "universal-cookie";
 import AboutView from "./CustomComponents/AboutView";
@@ -101,9 +101,11 @@ class App extends Component {
         });
         cookies.remove("userSession"); // Remove the session cookie
         console.log("Logged out"+res.data.message);
+        toast.success("Logged out successfully!")
       })
       .catch((error) => {
         console.error("Error:", error.message);
+        toast.error("Error logging out!")
       });
   };
 

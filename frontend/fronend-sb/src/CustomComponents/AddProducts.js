@@ -1,6 +1,7 @@
 import {Component} from "react";
 import axios from 'axios'
 import PropTypes from 'prop-types';
+import {toast} from 'react-toastify';
 
 
 class AddProducts extends Component{
@@ -49,9 +50,11 @@ class AddProducts extends Component{
     axios.post("/products", formData)
       .then(res => {
         console.log("Sent to server" + res);
+        toast.success("Product added successfully");
       })
       .catch(err => {
         console.log(err.message);
+        toast.error("Failed to add product");
       });
   }
   

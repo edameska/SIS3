@@ -106,6 +106,7 @@ class OneProductView extends Component {
         progress: undefined,
         theme: "colored",
         });
+        toast.info("🛒 Go to cart to checkout!",{})
     })
     .catch(error => {
       console.error("Error:", error.message);
@@ -128,6 +129,7 @@ class OneProductView extends Component {
         theme: "colored",
         });
       this.QSetViewInParent({ page: "products" });
+      toast.success("✅ Product deleted successfully!",{})
     }).catch(error => {
       console.error("Error:", error.message);
       toast.error("Error deleting product.");
