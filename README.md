@@ -27,7 +27,7 @@ Timeless Treasures is an e-commerce platform that allows users to browse, search
 
 - **Frontend**: React.js
 - **Backend**: Node.js, Express.js
-- **Database**: MongoDB
+- **Database**: MySQL
 - **Email Notifications**: Nodemailer
 - **Styling**: Bootstrap
 
