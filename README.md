@@ -34,3 +34,9 @@ Timeless Treasures is an e-commerce platform that allows users to browse, search
 ## Credits
 This project is maintained by Elena Dameska
 
+## Running the app
+App i currently running with the command:
+`forever start -c nodemon app.js`
+
+
+
